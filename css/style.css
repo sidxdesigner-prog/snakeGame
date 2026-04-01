@@ -1,0 +1,176 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    max-width: 90vw;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.logo {
+    padding: 3vh;
+    background-color: red;
+    border-radius: 10px;
+}
+
+.reacts {
+    display: flex;
+    gap: 5vh;
+    padding: 5vh;
+}
+
+.like,
+.share,
+.follow {
+    min-width: 6vw;
+    text-align: center;
+    background-color: red;
+    padding: 1.5vh;
+    border-radius: 5px;
+}
+
+main {
+    position: relative;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 1000px;
+    height: 400px;
+    border-radius: 10px;
+    align-content: center;
+}
+
+.gameBoard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 2px solid red;
+    max-width: 100%;
+    z-index: 5;
+}
+
+h1 {
+    position: relative;
+}
+
+.title {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    gap: 5vh;
+    z-index: 6;
+}
+
+label{
+    display: none;
+}
+input {
+    position: relative;
+    padding: 1vh 3vw;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.g-Start {
+    position: relative;
+    padding: 1vh 2vw;
+    border-radius: 10px;
+}
+
+#skin,
+#mode {
+    display: none;
+    position: fixed;
+    min-height: 300px;
+    width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+}
+
+.skinContent,
+.modeContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 300px;
+    width: 400px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    
+}
+.skinGrid, .modeGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+    grid-template-rows: auto;
+    gap: 20px;
+}
+
+.skinItem{
+    width: 80px;
+    height: 80px;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 20px;
+}
+.modeItem{
+    width: 80px;
+    height: 80px;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+}
+
+.skinItem:focus, .modeItem:focus{
+    width: 85px;
+    height: 85px;
+    border: none;
+}
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 70vw;
+    margin: 0 auto;
+    margin-top: 3vh;
+}
+
+#buttonSkin,
+#buttonMode, .modeItem {
+    height: 5vh;
+    display: block;
+}
+
+.gamePause button{
+    width: 30px;
+    height: 30px;
+}

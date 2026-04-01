@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bpmf+Huninn&family=Playpen+Sans+Hebrew:wght@100..800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>Snake Game - by SID</title>
+</head>
+
+<body>
+  <header>
+    <div class="reacts">
+      <p class="like">like</p>
+      <p class="share">share</p>
+      <p class="follow">X Follow</p>
+    </div>
+    <img class="logo" src="assets/imagens/logo.png" alt="Logomarca do Snake Game">
+  </header>
+
+  <main>
+    <canvas class="gameBoard" width="1000" height="400">
+
+    </canvas>
+    <div class="title" style="display: none;">
+      <h1>Snake Game</h1>
+      <form>
+        <label for="apelido">Apelido</label>
+        <input type="text" id="apelido" placeholder="Apelido">
+      </form>
+      <button class="g-Start" onclick="startGame()">Start</button>
+    </div>
+    <div class="gamePause">
+      <h1>O jogo Está Pausado</h1>
+      <div class="buttonPause">
+        <button><i class="fa-solid fa-house-chimney-window"></i></button>
+        <button><i class="fa fa-play" aria-hidden="true"></i></button>
+        <button><i class="fa-solid fa-arrow-rotate-left"></i></button>
+      </div>
+    </div>
+    <div id="skin" class="skinContainer">
+      <div class="skinContent">
+        <h2>Escolha sua Skin</h2>
+        <div class="skinGrid">
+          <button class="skinItem" style="background-color: green;" data-valor="green"></button>
+          <button class="skinItem" style="background-color: red;" data-valor="red"></button>
+          <button class="skinItem" style="background-color: blue;" data-valor="blue"></button>
+          <button class="skinItem" style="background-color: yellow;" data-valor="yellow"></button>
+        </div>
+        <button onclick="fecharModal('skin')">Concluir e retornar</button>
+      </div>
+    </div>
+    <div id="mode" class="modeContainer">
+      <div class="modeContent">
+        <h2>Escolha o Modo de Jogo</h2>
+        <div class="modeGrid">
+          <button class="modeItem" data-valor="classic"> Clássico</button>
+          <button class="modeItem" data-valor="infinite">infinito</button>
+        </div>
+        <button onclick="fecharModal('mode')">Concluir e retornar</button>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <button id="buttonSkin" onclick="abrirModal('skin')">Change Skin</button>
+    <button id="buttonMode" onclick="abrirModal('mode')">Change Mode</button>
+  </footer>
+  <script src="js/game.js"></script>
+</body>
+
+</html>
