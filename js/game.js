@@ -7,6 +7,8 @@ const modeButton = document.querySelectorAll(".modeItem")
 const buttonMode = document.getElementById("buttonMode")
 const buttonSkin = document.getElementById("buttonSkin")
 const title = document.querySelector('.title');
+const divPauseGame = document.querySelector('.gamePause')
+const buttonPause = document.querySelectorAll(".buttonIsPause")
 
 // VARIAVEIS LET DO JOGO
 let snake = []
@@ -60,17 +62,30 @@ const startGame = () => {
 
 };
 
-const gameIsPause = () =>{
-  if (!gamePause){
+const gameIsPause = (e) => {
+  if (e) {
+    let opcaoEscolhida = e.target.getAttribute("data-valor");
+    if (opcaoEscolhida == "home") {
+      home();
+    };
+    if (opcaoEscolhida == "restart") {
+      restar()
+    }
+    if (opcaoEscolhida == "play") {
+      gamePause = false;
+      gameInterval = setInterval(draw, 125);
+      divPauseGame.style.display = "none";
+    }
+  }
+  if (!gamePause) {
     gamePause = true;
     clearInterval(gameInterval);
-    divPauseGame.style.display = "block"
-    
-  }
-  else if(gamePause){
+    divPauseGame.style.display = "block";
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  } else {
     gamePause = false;
     gameInterval = setInterval(draw, 125);
-    divPauseGame.style.display = "none"
+    divPauseGame.style.display = "none";
   }
 }
 const draw = () => {
@@ -107,14 +122,14 @@ const draw = () => {
       buttonSkin.style.display = "block";
       buttonMode.style.display = "block";
     }
-  } else if(gameMode === "infinite"){
-    if(newHead.x < 0) {
+  } else if (gameMode === "infinite") {
+    if (newHead.x < 0) {
       snake[0].x = 980;
-    } else if(newHead.x > 999) {
+    } else if (newHead.x > 999) {
       snake[0].x = 0;
-    } else if(newHead.y < 0) {
+    } else if (newHead.y < 0) {
       snake[0].y = 380;
-    } else if(newHead.y > 399) {
+    } else if (newHead.y > 399) {
       snake[0].y = 0;
     }
     else if (checkColision(newHead, snake)) {
@@ -126,7 +141,7 @@ const draw = () => {
 };
 
 const directionControl = (event) => {
-  if (event.key == " "){
+  if (event.key == " ") {
     gameIsPause()
   }
   if (event.key == "ArrowUp" && direction != "DOWN") {
@@ -169,5 +184,10 @@ corButton.forEach((botao) => {
 modeButton.forEach((botao) => {
   botao.addEventListener("click", (e) => {
     escolherMode(e);
+  });
+});
+buttonPause.forEach((botao) => {
+  botao.addEventListener("click", (e) => {
+    gameIsPause(e);
   });
 });

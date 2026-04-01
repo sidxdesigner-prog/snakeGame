@@ -10,7 +10,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Bpmf+Huninn&family=Playpen+Sans+Hebrew:wght@100..800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.css">
   <title>Snake Game - by SID</title>
 </head>
 
@@ -28,7 +28,7 @@
     <canvas class="gameBoard" width="1000" height="400">
 
     </canvas>
-    <div class="title" style="display: none;">
+    <div class="title">
       <h1>Snake Game</h1>
       <form>
         <label for="apelido">Apelido</label>
@@ -36,12 +36,12 @@
       </form>
       <button class="g-Start" onclick="startGame()">Start</button>
     </div>
-    <div class="gamePause">
+    <div class="gamePause" style="display: none;">
       <h1>O jogo Está Pausado</h1>
       <div class="buttonPause">
-        <button><i class="fa-solid fa-house-chimney-window"></i></button>
-        <button><i class="fa fa-play" aria-hidden="true"></i></button>
-        <button><i class="fa-solid fa-arrow-rotate-left"></i></button>
+        <button class="buttonIsPause"><i class="fa-solid fa-house" data-valor="home"></i></button>
+        <button class="buttonIsPause"><i class="fa fa-play" aria-hidden="true" data-valor="play"></i></button>
+        <button class="buttonIsPause"><i class="fa-solid fa-arrow-rotate-left" data-valor="restart"></i></button>
       </div>
     </div>
     <div id="skin" class="skinContainer">

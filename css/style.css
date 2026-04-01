@@ -83,9 +83,10 @@ h1 {
     z-index: 6;
 }
 
-label{
+label {
     display: none;
 }
+
 input {
     position: relative;
     padding: 1vh 3vw;
@@ -123,9 +124,11 @@ input {
     border: 2px solid black;
     border-radius: 10px;
     padding: 20px;
-    
+
 }
-.skinGrid, .modeGrid{
+
+.skinGrid,
+.modeGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
@@ -134,14 +137,15 @@ input {
     gap: 20px;
 }
 
-.skinItem{
+.skinItem {
     width: 80px;
     height: 80px;
     border: 2px solid black;
     border-radius: 5px;
     padding: 20px;
 }
-.modeItem{
+
+.modeItem {
     width: 80px;
     height: 80px;
     border: 2px solid black;
@@ -150,11 +154,13 @@ input {
     text-align: center;
 }
 
-.skinItem:focus, .modeItem:focus{
+.skinItem:focus,
+.modeItem:focus {
     width: 85px;
     height: 85px;
     border: none;
 }
+
 footer {
     display: flex;
     flex-direction: row;
@@ -165,12 +171,33 @@ footer {
 }
 
 #buttonSkin,
-#buttonMode, .modeItem {
+#buttonMode,
+.modeItem {
     height: 5vh;
     display: block;
 }
 
-.gamePause button{
-    width: 30px;
-    height: 30px;
+.gamePause {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.gamePause button {
+    width: 100px;
+    height: 100px;
+    margin-top: 35px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 32px;
+}
+
+.buttonPause {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
 }
