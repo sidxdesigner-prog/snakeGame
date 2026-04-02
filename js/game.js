@@ -7,8 +7,9 @@ const modeButton = document.querySelectorAll(".modeItem")
 const buttonMode = document.getElementById("buttonMode")
 const buttonSkin = document.getElementById("buttonSkin")
 const title = document.querySelector('.title');
-const divPauseGame = document.querySelector('.gamePause')
-const buttonPause = document.querySelectorAll(".buttonIsPause")
+const buttonPauseHome = document.querySelector('.home')
+const buttonPauseRestart = document.querySelector(".restart")
+const divGameIsPause = document.querySelector(".gamePause")
 
 // VARIAVEIS LET DO JOGO
 let snake = []
@@ -62,32 +63,21 @@ const startGame = () => {
 
 };
 
-const gameIsPause = (e) => {
-  if (e) {
-    let opcaoEscolhida = e.target.getAttribute("data-valor");
-    if (opcaoEscolhida == "home") {
-      home();
-    };
-    if (opcaoEscolhida == "restart") {
-      restar()
-    }
-    if (opcaoEscolhida == "play") {
+const gameIsPause = () => {
+  if (gameInterval) {
+    if (!gamePause) {
+      gamePause = true;
+      clearInterval(gameInterval);
+      divGameIsPause.style.display = "block";
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    } else {
       gamePause = false;
       gameInterval = setInterval(draw, 125);
-      divPauseGame.style.display = "none";
+      divGameIsPause.style.display = "none";
     }
   }
-  if (!gamePause) {
-    gamePause = true;
-    clearInterval(gameInterval);
-    divPauseGame.style.display = "block";
-    context.clearRect(0, 0, canvas.width, canvas.height);
-  } else {
-    gamePause = false;
-    gameInterval = setInterval(draw, 125);
-    divPauseGame.style.display = "none";
-  }
 }
+
 const draw = () => {
   context.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < snake.length; i++) {
@@ -184,10 +174,5 @@ corButton.forEach((botao) => {
 modeButton.forEach((botao) => {
   botao.addEventListener("click", (e) => {
     escolherMode(e);
-  });
-});
-buttonPause.forEach((botao) => {
-  botao.addEventListener("click", (e) => {
-    gameIsPause(e);
   });
 });

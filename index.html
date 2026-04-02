@@ -25,7 +25,10 @@
   </header>
 
   <main>
-    <canvas class="gameBoard" width="1000" height="400">
+    <div class="gameHeader">
+      <button class="buttonIsPause outsidePlay" onclick="gameIsPause()"><i class="fa fa-play" aria-hidden="true" ></i></button>
+    </div>
+    <canvas class="gameBoard" style="width: 80vw;height: 55vh;">
 
     </canvas>
     <div class="title">
@@ -39,9 +42,9 @@
     <div class="gamePause" style="display: none;">
       <h1>O jogo Está Pausado</h1>
       <div class="buttonPause">
-        <button class="buttonIsPause"><i class="fa-solid fa-house" data-valor="home"></i></button>
-        <button class="buttonIsPause"><i class="fa fa-play" aria-hidden="true" data-valor="play"></i></button>
-        <button class="buttonIsPause"><i class="fa-solid fa-arrow-rotate-left" data-valor="restart"></i></button>
+        <button class="buttonIsPause home" onclick="home()"><i class="fa-solid fa-house" ></i></button>
+        <button class="buttonIsPause insidePlay" onclick="gameIsPause()"><i class="fa fa-play" aria-hidden="true" ></i></button>
+        <button class="buttonIsPause restart" onclick="restart()"><i class="fa-solid fa-arrow-rotate-left"></i></button>
       </div>
     </div>
     <div id="skin" class="skinContainer">
