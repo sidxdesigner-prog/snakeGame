@@ -1,7 +1,6 @@
 // CONSTANTES DO JOGO
 const canvas = document.querySelector('.gameBoard');
 const context = canvas.getContext("2d");
-const box = 20;
 const corButton = document.querySelectorAll(".skinItem")
 const modeButton = document.querySelectorAll(".modeItem")
 const buttonMode = document.getElementById("buttonMode")
@@ -13,21 +12,14 @@ const divGameIsPause = document.querySelector(".gamePause")
 
 // VARIAVEIS LET DO JOGO
 let snake = []
-snake[0] = { x: 520, y: 200 };
-snake[1] = { x: 500, y: 200 };
-snake[2] = { x: 480, y: 200 };
+let box;
 let snakeSkin = "red";
 let gameMode = "classic"
 let direction = "RIGHT";
 let nextDirection = "RIGHT";
 let gameInterval;
-let food = {
-  x: Math.floor(Math.random() * 50) * box,
-  y: Math.floor(Math.random() * 20) * box
-};
+let food = {};
 let gamePause;
-
-
 
 
 
@@ -58,12 +50,46 @@ const startGame = () => {
   title.style.display = "none"
   buttonSkin.style.display = "none"
   buttonMode.style.display = "none"
+  ajusteTela()
+  gerarCobra()
+  gerarComida()
   clearInterval(gameInterval);
   gameInterval = setInterval(draw, 125);
+}
 
+const home = () =>{
+  gamePause = false;
+  divGameIsPause.style.display = "none";
+  clearInterval(gameInterval);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  title.style.display = "block"
+  buttonSkin.style.display = "block"
+  buttonMode.style.display = "block"
+}
+
+const ajusteTela = () => {
+  canvas.width = canvas.offsetWidth;
+  box = Math.floor(canvas.width / 50);
+  canvas.height = box * 20;
+  canvas.style.height = canvas.height + "px"
+  canvas.style.width = canvas.width + "px"
 };
 
+const gerarCobra = () => {
+  snake[0] = { x: box * 25, y: box * 10 };
+  snake[1] = { x: box * 24, y: box * 10 };
+  snake[2] = { x: box * 23, y: box * 10 };
+}
+
+const gerarComida = () => {
+  food = {
+    x: (Math.floor(Math.random() * 50) * box),
+    y: (Math.floor(Math.random() * 20) * box)
+  };
+}
+
 const gameIsPause = () => {
+  ajusteTela()
   if (gameInterval) {
     if (!gamePause) {
       gamePause = true;
@@ -107,19 +133,19 @@ const draw = () => {
     snake.pop();
   }
   if (gameMode === "classic") {
-    if (newHead.x < 0 || newHead.x > 999 || newHead.y < 0 || newHead.y > 399 || checkColision(newHead, snake)) {
+    if (newHead.x < 0 || newHead.x >= canvas.width || newHead.y < 0 || newHead.y >= canvas.height || checkColision(newHead, snake)) {
       clearInterval(gameInterval);
       buttonSkin.style.display = "block";
       buttonMode.style.display = "block";
     }
   } else if (gameMode === "infinite") {
     if (newHead.x < 0) {
-      snake[0].x = 980;
-    } else if (newHead.x > 999) {
+      snake[0].x = box * 49;
+    } else if (newHead.x >= canvas.width) {
       snake[0].x = 0;
     } else if (newHead.y < 0) {
-      snake[0].y = 380;
-    } else if (newHead.y > 399) {
+      snake[0].y = box * 19;
+    } else if (newHead.y >= canvas.height) {
       snake[0].y = 0;
     }
     else if (checkColision(newHead, snake)) {
@@ -134,16 +160,16 @@ const directionControl = (event) => {
   if (event.key == " ") {
     gameIsPause()
   }
-  if (event.key == "ArrowUp" && direction != "DOWN") {
+  if ((event.key == "ArrowUp" || event.key == "w" || event.key == "W") && direction != "DOWN") {
     nextDirection = "UP"
   }
-  if (event.key == "ArrowLeft" && direction != "RIGHT") {
+  if ((event.key == "ArrowLeft" || event.key == "a" || event.key == "A") && direction != "RIGHT") {
     nextDirection = "LEFT"
   }
-  if (event.key == "ArrowDown" && direction != "UP") {
+  if ((event.key == "ArrowDown" || event.key == "s" || event.key == "S") && direction != "UP") {
     nextDirection = "DOWN"
   }
-  if (event.key == "ArrowRight" && direction != "LEFT") {
+  if ((event.key == "ArrowRight" || event.key == "d" || event.key == "D") && direction != "LEFT") {
     nextDirection = "RIGHT"
   }
 };
@@ -176,3 +202,5 @@ modeButton.forEach((botao) => {
     escolherMode(e);
   });
 });
+window.addEventListener("load", ajusteTela);
+window.addEventListener("resize", ajusteTela);

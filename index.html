@@ -25,50 +25,54 @@
   </header>
 
   <main>
-    <div class="gameHeader">
-      <button class="buttonIsPause outsidePlay" onclick="gameIsPause()"><i class="fa fa-play" aria-hidden="true" ></i></button>
-    </div>
-    <canvas class="gameBoard" style="width: 80vw;height: 55vh;">
+    <div class="gameRange">
+      <div class="gameHeader">
+        <button class="buttonIsPause outsidePlay" onclick="gameIsPause()"><i class="fa fa-play"
+            aria-hidden="true"></i></button>
+      </div>
+      <canvas class="gameBoard" style="width: 80vw;height: auto;">
 
-    </canvas>
-    <div class="title">
-      <h1>Snake Game</h1>
-      <form>
-        <label for="apelido">Apelido</label>
-        <input type="text" id="apelido" placeholder="Apelido">
-      </form>
-      <button class="g-Start" onclick="startGame()">Start</button>
-    </div>
-    <div class="gamePause" style="display: none;">
-      <h1>O jogo Está Pausado</h1>
-      <div class="buttonPause">
-        <button class="buttonIsPause home" onclick="home()"><i class="fa-solid fa-house" ></i></button>
-        <button class="buttonIsPause insidePlay" onclick="gameIsPause()"><i class="fa fa-play" aria-hidden="true" ></i></button>
-        <button class="buttonIsPause restart" onclick="restart()"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+      </canvas>
+      <div class="title">
+        <h1>Snake Game</h1>
+        <form>
+          <label for="apelido">Apelido</label>
+          <input type="text" id="apelido" placeholder="Apelido">
+        </form>
+        <button class="g-Start" onclick="startGame()">Start</button>
       </div>
-    </div>
-    <div id="skin" class="skinContainer">
-      <div class="skinContent">
-        <h2>Escolha sua Skin</h2>
-        <div class="skinGrid">
-          <button class="skinItem" style="background-color: green;" data-valor="green"></button>
-          <button class="skinItem" style="background-color: red;" data-valor="red"></button>
-          <button class="skinItem" style="background-color: blue;" data-valor="blue"></button>
-          <button class="skinItem" style="background-color: yellow;" data-valor="yellow"></button>
+      <div class="gamePause" style="display: none;">
+        <h1>O jogo Está Pausado</h1>
+        <div class="buttonPause">
+          <button class="buttonIsPause home" onclick="home()"><i class="fa-solid fa-house"></i></button>
+          <button class="buttonIsPause insidePlay" onclick="gameIsPause()"><i class="fa fa-play"
+              aria-hidden="true"></i></button>
+          <button class="buttonIsPause restart" onclick="restart()"><i
+              class="fa-solid fa-arrow-rotate-left"></i></button>
         </div>
-        <button onclick="fecharModal('skin')">Concluir e retornar</button>
       </div>
-    </div>
-    <div id="mode" class="modeContainer">
-      <div class="modeContent">
-        <h2>Escolha o Modo de Jogo</h2>
-        <div class="modeGrid">
-          <button class="modeItem" data-valor="classic"> Clássico</button>
-          <button class="modeItem" data-valor="infinite">infinito</button>
+      <div id="skin" class="skinContainer">
+        <div class="skinContent">
+          <h2>Escolha sua Skin</h2>
+          <div class="skinGrid">
+            <button class="skinItem" style="background-color: green;" data-valor="green"></button>
+            <button class="skinItem" style="background-color: red;" data-valor="red"></button>
+            <button class="skinItem" style="background-color: blue;" data-valor="blue"></button>
+            <button class="skinItem" style="background-color: yellow;" data-valor="yellow"></button>
+          </div>
+          <button onclick="fecharModal('skin')">Concluir e retornar</button>
         </div>
-        <button onclick="fecharModal('mode')">Concluir e retornar</button>
       </div>
-    </div>
+      <div id="mode" class="modeContainer">
+        <div class="modeContent">
+          <h2>Escolha o Modo de Jogo</h2>
+          <div class="modeGrid">
+            <button class="modeItem" data-valor="classic"> Clássico</button>
+            <button class="modeItem" data-valor="infinite">infinito</button>
+          </div>
+          <button onclick="fecharModal('mode')">Concluir e retornar</button>
+        </div>
+      </div>
   </main>
   <footer>
     <button id="buttonSkin" onclick="abrirModal('skin')">Change Skin</button>
