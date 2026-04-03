@@ -15,11 +15,12 @@ let snake = []
 let box;
 let snakeSkin = "red";
 let gameMode = "classic"
-let direction = "RIGHT";
+let direction;
 let nextDirection = "RIGHT";
 let gameInterval;
 let food = {};
 let gamePause;
+let gameIsActive;
 
 
 
@@ -27,8 +28,10 @@ let gamePause;
 const abrirModal = (name) => {
   if (name === "skin") {
     skin.style.display = "block";
+    mode.style.display = "none";
   } else if (name === "mode") {
     mode.style.display = "block";
+    skin.style.display = "none";
   }
 }
 const fecharModal = (name) => {
@@ -47,6 +50,9 @@ const escolherMode = (mode) => {
 }
 
 const startGame = () => {
+  direction = "RIGHT"
+  nextDirection = "RIGHT"
+  gameIsActive = true
   title.style.display = "none"
   buttonSkin.style.display = "none"
   buttonMode.style.display = "none"
@@ -54,106 +60,126 @@ const startGame = () => {
   gerarCobra()
   gerarComida()
   clearInterval(gameInterval);
-  gameInterval = setInterval(draw, 125);
+  gameInterval = setInterval(draw, 200);
 }
 
-const home = () =>{
+const home = () => {
   gamePause = false;
+  gameIsActive = false
+  gerarCobra();
   divGameIsPause.style.display = "none";
   clearInterval(gameInterval);
   context.clearRect(0, 0, canvas.width, canvas.height);
-  title.style.display = "block"
+  title.style.display = "flex"
   buttonSkin.style.display = "block"
   buttonMode.style.display = "block"
+
+}
+const restart = () => {
+  gamePause = false;
+  divGameIsPause.style.display = "none";
+  startGame();
+
 }
 
 const ajusteTela = () => {
+  canvas.style.width = "100%"
   canvas.width = canvas.offsetWidth;
   box = Math.floor(canvas.width / 50);
   canvas.height = box * 20;
   canvas.style.height = canvas.height + "px"
   canvas.style.width = canvas.width + "px"
+  console.log("Redimensionando!")
 };
 
 const gerarCobra = () => {
-  snake[0] = { x: box * 25, y: box * 10 };
-  snake[1] = { x: box * 24, y: box * 10 };
-  snake[2] = { x: box * 23, y: box * 10 };
+  snake[0] = { x: 25, y: 10 };
+  snake[1] = { x: 24, y: 10 };
+  snake[2] = { x: 23, y: 10 };
 }
 
 const gerarComida = () => {
   food = {
-    x: (Math.floor(Math.random() * 50) * box),
-    y: (Math.floor(Math.random() * 20) * box)
+    x: Math.floor(Math.random() * 50),
+    y: Math.floor(Math.random() * 20)
   };
 }
 
 const gameIsPause = () => {
   ajusteTela()
-  if (gameInterval) {
+  if (gameInterval && gameIsActive) {
     if (!gamePause) {
       gamePause = true;
       clearInterval(gameInterval);
       divGameIsPause.style.display = "block";
       context.clearRect(0, 0, canvas.width, canvas.height);
+      buttonSkin.style.display = "block"
+      buttonMode.style.display = "block"
     } else {
       gamePause = false;
-      gameInterval = setInterval(draw, 125);
+      gameInterval = setInterval(draw, 200);
       divGameIsPause.style.display = "none";
     }
   }
 }
 
 const draw = () => {
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < snake.length; i++) {
-    context.fillStyle = snakeSkin;
-    context.fillRect(snake[i].x, snake[i].y, box, box);
-  }
-  drawFood();
   direction = nextDirection
 
   let snakeX = snake[0].x;
   let snakeY = snake[0].y;
 
-  if (direction === "RIGHT") snakeX += box;
-  if (direction === "LEFT") snakeX -= box;
-  if (direction === "UP") snakeY -= box;
-  if (direction === "DOWN") snakeY += box;
+  if (direction === "RIGHT") snakeX += 1;
+  if (direction === "LEFT") snakeX -= 1;
+  if (direction === "UP") snakeY -= 1;
+  if (direction === "DOWN") snakeY += 1;
 
-  let newHead = { x: snakeX, y: snakeY };
-  snake.unshift(newHead);
-
-  if (newHead.x === food.x && newHead.y === food.y) {
+  if (gameMode === "classic") {
+    if (snakeX < 0 || snakeX >= 50 || snakeY < 0 || snakeY >= 20 || checkColision(snakeX, snakeY, snake)) {
+      gameIsActive = false;
+      gamePause = true;
+      divGameIsPause.style.display = "block";
+      clearInterval(gameInterval);
+      buttonSkin.style.display = "block";
+      buttonMode.style.display = "block";
+      return
+    }
+  } else if (gameMode === "infinite") {
+    if (snakeX < 0) {
+      snakeX = 49;
+    } else if (snakeX > 49) {
+      snakeX = 0;
+    } else if (snakeY < 0) {
+      snakeY = 19;
+    } else if (snakeY > 19) {
+      snakeY = 0;
+    }
+    else if (checkColision(snakeX, snakeY, snake)) {
+      gameIsActive = false;
+      divGameIsPause.style.display = "block";
+      clearInterval(gameInterval)
+      buttonSkin.style.display = "block"
+      buttonMode.style.display = "block"
+      return
+    }
+  }
+  if (snakeX === food.x && snakeY === food.y) {
     food = {
-      x: Math.floor(Math.random() * 50) * box,
-      y: Math.floor(Math.random() * 20) * box
+      x: Math.floor(Math.random() * 50),
+      y: Math.floor(Math.random() * 20)
     };
   } else {
     snake.pop();
   }
-  if (gameMode === "classic") {
-    if (newHead.x < 0 || newHead.x >= canvas.width || newHead.y < 0 || newHead.y >= canvas.height || checkColision(newHead, snake)) {
-      clearInterval(gameInterval);
-      buttonSkin.style.display = "block";
-      buttonMode.style.display = "block";
-    }
-  } else if (gameMode === "infinite") {
-    if (newHead.x < 0) {
-      snake[0].x = box * 49;
-    } else if (newHead.x >= canvas.width) {
-      snake[0].x = 0;
-    } else if (newHead.y < 0) {
-      snake[0].y = box * 19;
-    } else if (newHead.y >= canvas.height) {
-      snake[0].y = 0;
-    }
-    else if (checkColision(newHead, snake)) {
-      clearInterval(gameInterval)
-      buttonSkin.style.display = "block"
-      buttonMode.style.display = "block"
-    }
+  let newHead = { x: snakeX, y: snakeY };
+  snake.unshift(newHead);
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < snake.length; i++) {
+    context.fillStyle = snakeSkin;
+    context.fillRect(snake[i].x * box, snake[i].y * box, box, box);
   }
+  drawFood();
 };
 
 const directionControl = (event) => {
@@ -176,12 +202,12 @@ const directionControl = (event) => {
 
 const drawFood = () => {
   context.fillStyle = "red";
-  context.fillRect(food.x, food.y, box, box);
+  context.fillRect(food.x * box, food.y * box, box, box);
 };
 
-const checkColision = (newHead, snake) => {
+const checkColision = (snakeX, snakeY, snake) => {
   for (let i = 1; i < snake.length; i++) {
-    if (newHead.x == snake[i].x && newHead.y == snake[i].y) {
+    if (snakeX == snake[i].x && snakeY == snake[i].y) {
       return true
     };
   };
