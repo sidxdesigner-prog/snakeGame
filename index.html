@@ -16,44 +16,52 @@
 
 <body>
   <header>
-    <div class="reacts">
-      <p class="like">like</p>
-      <p class="share">share</p>
-      <p class="follow">X Follow</p>
+    <div class="header">
+      <a class="headerItem" href="http://"><i class="fa-brands fa-square-facebook"></i></a>
+      <a class="headerItem" href="http://"><i class="fa-solid fa-share"></i></a>
+      <a class="headerItem" href="http://"><i class="fa-brands fa-square-x-twitter"></i></a>
     </div>
+
     <img class="logo" src="assets/imagens/logo.png" alt="Logomarca do Snake Game">
+
   </header>
 
   <main>
+
     <div class="gameRange">
+
       <div class="gameHeader">
         <button class="buttonIsPause outsidePlay" onclick="gameIsPause()"><i class="fa fa-play"
             aria-hidden="true"></i></button>
       </div>
-      <canvas class="gameBoard" style="width: 80vw;height: auto;">
 
-      </canvas>
-      <div class="title">
-        <h1>Snake Game</h1>
+      <canvas class="gameBoard"></canvas>
+
+      <div class="title" id="title">
+        <h1><span>Poke</span> Game</h1>
         <form>
-          <label for="apelido">Apelido</label>
           <input type="text" id="apelido" placeholder="Apelido">
         </form>
         <button class="g-Start" onclick="startGame()">Start</button>
       </div>
-      <div class="gamePause" style="display: none;">
-        <h1>O jogo Está Pausado</h1>
+
+      <div class="gamePause" id="gamePause">
+        <h1>O jogo <br> Está Pausado</h1>
         <div class="buttonPause">
           <button class="buttonIsPause home" onclick="home()"><i class="fa-solid fa-house"></i></button>
-          <button class="buttonIsPause insidePlay" onclick="gameIsPause()"><i class="fa fa-play"
-              aria-hidden="true"></i></button>
-          <button class="buttonIsPause restart" onclick="restart()"><i
-              class="fa-solid fa-arrow-rotate-left"></i></button>
+          <button class="buttonIsPause insidePlay" onclick="gameIsPause()"><i class="fa fa-play" aria-hidden="true"></i></button>
+          <button class="buttonIsPause restart" onclick="restart()"><i class="fa-solid fa-arrow-rotate-left"></i></button>
         </div>
       </div>
+
       <div id="skin" class="skinContainer">
         <div class="skinContent">
           <h2>Escolha sua Skin</h2>
+          <div class="skinSprite">
+            <div class="sprite sHead"></div>
+            <div class="sprite sBody"></div>
+            <div class="sprite sTail"></div>
+          </div>
           <div class="skinGrid">
             <button class="skinItem" style="background-color: green;" data-valor="green"></button>
             <button class="skinItem" style="background-color: red;" data-valor="red"></button>
@@ -63,6 +71,7 @@
           <button onclick="fecharModal('skin')">Concluir e retornar</button>
         </div>
       </div>
+
       <div id="mode" class="modeContainer">
         <div class="modeContent">
           <h2>Escolha o Modo de Jogo</h2>
@@ -73,11 +82,12 @@
           <button onclick="fecharModal('mode')">Concluir e retornar</button>
         </div>
       </div>
+    </div>
+    <footer>
+      <button id="buttonSkin" onclick="abrirModal('skin')">Change Skin</button>
+      <button id="buttonMode" onclick="abrirModal('mode')">Change Mode</button>
+    </footer>
   </main>
-  <footer>
-    <button id="buttonSkin" onclick="abrirModal('skin')">Change Skin</button>
-    <button id="buttonMode" onclick="abrirModal('mode')">Change Mode</button>
-  </footer>
   <script src="js/game.js"></script>
 </body>
 

@@ -21,6 +21,8 @@ let gameInterval;
 let food = {};
 let gamePause;
 let gameIsActive;
+let collumns = 50
+let rows = 20
 
 
 
@@ -84,24 +86,33 @@ const restart = () => {
 
 const ajusteTela = () => {
   canvas.style.width = "100%"
-  canvas.width = canvas.offsetWidth;
-  box = Math.floor(canvas.width / 50);
-  canvas.height = box * 20;
+  let larguraDisponivel = document.body.clientWidth
+  if (larguraDisponivel < 700) {
+    collumns = 20
+    rows = 30
+  } else {
+    collumns = 50
+    rows = 20
+  }
+  box = Math.floor(larguraDisponivel / collumns);
+  canvas.width = box * collumns
+  canvas.height = box * rows;
   canvas.style.height = canvas.height + "px"
   canvas.style.width = canvas.width + "px"
-  console.log("Redimensionando!")
-};
-
+  console.log("Redimensionando!");
+}
 const gerarCobra = () => {
-  snake[0] = { x: 25, y: 10 };
-  snake[1] = { x: 24, y: 10 };
-  snake[2] = { x: 23, y: 10 };
+  let centerX = Math.floor(collumns / 2);
+  let centerY = Math.floor(rows / 2);
+  snake[0] = { x: centerX, y: centerY };
+  snake[1] = { x: centerX - 1, y: centerY };
+  snake[2] = { x: centerX - 2, y: centerY };
 }
 
 const gerarComida = () => {
   food = {
-    x: Math.floor(Math.random() * 50),
-    y: Math.floor(Math.random() * 20)
+    x: Math.floor(Math.random() * collumns),
+    y: Math.floor(Math.random() * rows)
   };
 }
 
@@ -135,7 +146,7 @@ const draw = () => {
   if (direction === "DOWN") snakeY += 1;
 
   if (gameMode === "classic") {
-    if (snakeX < 0 || snakeX >= 50 || snakeY < 0 || snakeY >= 20 || checkColision(snakeX, snakeY, snake)) {
+    if (snakeX < 0 || snakeX >= collumns || snakeY < 0 || snakeY >= rows || checkColision(snakeX, snakeY, snake)) {
       gameIsActive = false;
       gamePause = true;
       divGameIsPause.style.display = "block";
@@ -146,12 +157,12 @@ const draw = () => {
     }
   } else if (gameMode === "infinite") {
     if (snakeX < 0) {
-      snakeX = 49;
-    } else if (snakeX > 49) {
+      snakeX = collumns - 1;
+    } else if (snakeX >= collumns) {
       snakeX = 0;
     } else if (snakeY < 0) {
-      snakeY = 19;
-    } else if (snakeY > 19) {
+      snakeY = rows - 1;
+    } else if (snakeY >= rows) {
       snakeY = 0;
     }
     else if (checkColision(snakeX, snakeY, snake)) {
@@ -165,8 +176,8 @@ const draw = () => {
   }
   if (snakeX === food.x && snakeY === food.y) {
     food = {
-      x: Math.floor(Math.random() * 50),
-      y: Math.floor(Math.random() * 20)
+      x: Math.floor(Math.random() * collumns),
+      y: Math.floor(Math.random() * rows)
     };
   } else {
     snake.pop();

@@ -4,221 +4,238 @@
     box-sizing: border-box;
 }
 
-header {
-    max-width: 90vw;
-    display: flex;
-    margin: 0 auto;
-    align-items: center;
-    justify-content: space-between;
-}
-
 body {
-    width: 100%;
-    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     user-select: none;
 }
 
-.logo {
-    padding: 3vh;
+.header {
+    padding: 2vw;
+    border-radius: 10px;
+    width: 100vw;
     background-color: red;
-    border-radius: 10px;
-}
-
-.reacts {
-    display: flex;
-    gap: 5vh;
-    padding: 5vh;
-}
-
-.like,
-.share,
-.follow {
-    min-width: 6vw;
-    text-align: center;
-    background-color: red;
-    padding: 1.5vh;
-    border-radius: 5px;
-}
-
-main {
-    position: relative;
-    border: 2px solid black;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    width: 80vw;
-    height: auto;
-    border-radius: 10px;
-}
-.gameRange{
-    width: 80vw;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #00f;
-}
-.gameHeader {
-    position: relative;
-    top: 0;
-    width: 80vw;
-    min-height: 5vh;
-    border: 2px solid #000;
-    border-radius: 10px 10px 0px 0px;
-}
-
-.gameBoard {
-    border-radius: 10px;
-    position: relative;
-    top: 0;
-    left: 0;
-    border: 2px solid red;
-    max-width: 100%;
-    z-index: 5;
-}
-
-h1 {
-    position: relative;
-}
-
-.title {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    height: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    gap: 5vh;
-    z-index: 6;
-}
-
-label {
-    display: none;
-}
-
-input {
-    position: relative;
-    padding: 1vh 3vw;
-    text-align: center;
-    border-radius: 5px;
-}
-
-.g-Start {
-    position: relative;
-    padding: 1vh 2vw;
-    border-radius: 10px;
-}
-
-.gamePause {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 50%;
-    height: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 7;
-}
-
-.gamePause button {
-    width: 100px;
-    height: 100px;
-    margin-top: 35px;
-    border-radius: 20px;
-    text-align: center;
-    font-size: 32px;
-}
-
-.buttonPause {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 50px;
 }
 
-#skin,
-#mode {
-    display: none;
-    position: fixed;
-    min-height: 300px;
-    width: 400px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 8;
+.headerItem {
+    font-size: 30px;
+    color: white;
+    text-decoration: none;
 }
 
-.skinContent,
-.modeContent {
+.headerItem:hover {
+    text-decoration: overline;
+    color: #002896;
+}
+
+.logo {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    padding: 20px;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+}
+
+.gameRange {
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.gameHeader {
+    /*display: none;*/
+    background-color: red;
+    width: 100%;
+    border-radius: 10px 10px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.gameHeader button {
+    width: 50px;
+    height: 50px;
+    color: #002896;
+    background-color: #fff;
+    border: none;
+    border-radius: 3px;
+}
+
+.gameHeader button:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: #002896;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.gameBoard {
+    cursor: default;
+}
+
+canvas {
+    background-color: #fff;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.title {
+    user-select: none;
+    position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    min-height: 300px;
-    width: 400px;
-    background-color: white;
-    border: 2px solid black;
-    border-radius: 10px;
-    padding: 20px;
-
+    justify-content: center;
+    text-align: center;
+    gap: 25px;
+    z-index: 5;
 }
 
-.skinGrid,
-.modeGrid {
-    display: grid;
+#title {
+    display: none;
+}
+
+.title span {
+    color: #002896;
+}
+
+.title h1 {
+    color: red;
+    font-size: 24pt;
+    font-weight: 800;
+}
+
+input {
+    border-radius: 8px;
+    height: 30px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.title button {
+    width: 120px;
+    height: 30px;
+    color: #fff;
+    background-color: #002896;
+    border: none;
+    border-radius: 6px;
+}
+
+.title button:hover {
+    cursor: pointer;
+    color: #ff0;
+    font-weight: 600;
+    background-color: #002896;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.gamePause {
+    color: #002896;
+    font-size: 16pt;
+    font-weight: 800;
+    display: none;
+    user-select: none;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 25px;
+    z-index: 10;
+}
+
+#gamePause {
+    display: none;
+}
+
+.buttonPause {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 25px;
+    z-index: 10;
+}
+
+.buttonIsPause {
+    width: 50px;
+    min-height: 50px;
+    border-radius: 10px;
+    font-size: 24pt;
+    color: #002896;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.buttonIsPause:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: #002896;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#skin {
+    color: #002896;
+    font-size: 16pt;
+    font-weight: 800;
+    user-select: none;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 25px;
+    z-index: 15;
+}
+
+.skinContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+.skinSprite{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sprite{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: #002896;
+}
+.skinGrid{
+    display: flex;
     grid-template-columns: 1fr 1fr;
     align-items: center;
     justify-content: center;
-    grid-template-rows: auto;
-    gap: 20px;
+    gap: 10px;
 }
 
-.skinItem {
-    width: 80px;
-    height: 80px;
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: 20px;
-}
-
-.modeItem {
-    width: 80px;
-    height: 80px;
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: 20px;
-    text-align: center;
-}
-
-.skinItem:focus,
-.modeItem:focus {
-    width: 85px;
-    height: 85px;
-    border: none;
-}
-
-footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    max-width: 70vw;
-    margin: 0 auto;
-    margin-top: 3vh;
-}
-
-#buttonSkin,
-#buttonMode,
-.modeItem {
-    height: 5vh;
-    display: block;
-    z-index: 9;
+.skinItem{
+    width: 50px;
+    height: 50px;
+    border: #ccc;
 }
