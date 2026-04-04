@@ -5,8 +5,8 @@
 }
 
 body {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    min-height: 100dvh;
     margin: 0 auto;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     display: flex;
@@ -15,10 +15,19 @@ body {
     user-select: none;
 }
 
+button,
+input {
+    font-family: inherit;
+}
+
+header {
+    width: 100%;
+}
+
 .header {
     padding: 2vw;
-    border-radius: 10px;
-    width: 100vw;
+    border-radius: 0px 0px 10px 10px;
+    width: 100%;
     background-color: red;
     display: flex;
     align-items: center;
@@ -50,6 +59,7 @@ main {
 }
 
 .gameRange {
+    width: 100%;
     position: relative;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -57,6 +67,7 @@ main {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .gameHeader {
@@ -107,10 +118,6 @@ canvas {
     z-index: 5;
 }
 
-#title {
-    display: none;
-}
-
 .title span {
     color: #002896;
 }
@@ -128,41 +135,19 @@ input {
     border: 1px solid #ccc;
 }
 
-.title button {
-    width: 120px;
-    height: 30px;
-    color: #fff;
-    background-color: #002896;
-    border: none;
-    border-radius: 6px;
-}
-
-.title button:hover {
-    cursor: pointer;
-    color: #ff0;
-    font-weight: 600;
-    background-color: #002896;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
 .gamePause {
+    display: none;
     color: #002896;
     font-size: 16pt;
     font-weight: 800;
-    display: none;
     user-select: none;
     position: absolute;
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     gap: 25px;
     z-index: 10;
-}
-
-#gamePause {
-    display: none;
 }
 
 .buttonPause {
@@ -192,13 +177,14 @@ input {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#skin {
+#skin,
+#mode {
+    display: none;
     color: #002896;
     font-size: 16pt;
     font-weight: 800;
     user-select: none;
     position: absolute;
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -207,35 +193,211 @@ input {
     z-index: 15;
 }
 
-.skinContent{
+.skinContent,
+.modeContent {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 25px;
+    gap: 35px;
 }
 
-.skinSprite{
+.skinSprite {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.sprite{
+
+.skinSprite li {
+    margin-left: -10px;
+    list-style-type: none;
     border-radius: 50%;
     width: 50px;
     height: 50px;
     background-color: #002896;
+    animation: snakeBauncing 2s infinite;
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
-.skinGrid{
-    display: flex;
+
+.skinSprite li:first-child {
+    margin-left: 0;
+}
+
+.skinSprite li:nth-child(2) {
+    animation-delay: .2s;
+}
+
+.skinSprite li:nth-child(3) {
+    animation-delay: .4s;
+}
+
+.skinSprite li:nth-child(4) {
+    animation-delay: .6s;
+}
+
+.skinGrid,
+.modeGrid {
+    display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
     justify-content: center;
     gap: 10px;
 }
 
-.skinItem{
+.skinItem {
+    cursor: pointer;
     width: 50px;
     height: 50px;
     border: #ccc;
+    border-radius: 60px;
+}
+
+.skinButtonModal,
+.modeButtonModal,
+.title button,
+#buttonSkin,
+#buttonMode {
+    cursor: pointer;
+    width: 120px;
+    height: 30px;
+    color: #fff;
+    background-color: #002896;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.skinButtonModal:hover,
+.modeButtonModal:hover,
+#buttonSkin:hover,
+#buttonMode:hover,
+.title button:hover {
+    color: #ff0;
+    background-color: #002896;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.modeItem {
+    width: 100px;
+    height: 150px;
+    border: 1px solid #ccc;
+}
+
+.modeItem:hover {
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.infinite {
+    background-color: #002896;
+}
+
+.classic {
+    background-color: red;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 70vw;
+    margin: 0 auto;
+    margin-top: 3vh;
+}
+
+@keyframes snakeBauncing {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    25% {
+        transform: translateY(15px);
+    }
+
+    75% {
+        transform: translateY(-15px);
+    }
+}
+
+@media (max-width: 380px) {
+    .title h1 {
+        font-size: 20pt;
+    }
+
+    .skinSprite li {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        gap: 15px;
+    }
+
+    .headerItem {
+        font-size: 24px;
+    }
+
+}
+
+@media (max-width: 780px) {
+
+    #skin,
+    #mode,
+    .gamePause {
+        width: 95%;
+        font-size: 14pt;
+    }
+
+    .modeItem {
+        width: 80px;
+        height: 120px;
+    }
+}
+
+@media (min-width: 800px) {
+    main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .gameRange {
+        margin-top: 25px;
+        width: 90vw;
+        max-width: 900px;
+    }
+
+    .gameHeader{
+        height: 50px;
+    }
+    .gameHeader button {
+        display: none;
+    }
+
+    .logo {
+        position: absolute;
+        right: 30px;
+        top: 10px;
+        padding: 0;
+    }
+
+    .header {
+        height: 40px;
+        justify-content: start;
+    }
+
+    .headerItem {
+        margin-left: 30px;
+    }
+
+    footer {
+        min-width: 90vw;
+    }
+
 }
