@@ -9,6 +9,7 @@ const title = document.querySelector('.title');
 const buttonPauseHome = document.querySelector('.home')
 const buttonPauseRestart = document.querySelector(".restart")
 const divGameIsPause = document.querySelector(".gamePause")
+const sprite = document.querySelectorAll(".sprite")
 
 // VARIAVEIS LET DO JOGO
 let snake = []
@@ -31,21 +32,28 @@ const abrirModal = (name) => {
   if (name === "skin") {
     skin.style.display = "block";
     mode.style.display = "none";
+    title.style.display = "none";
   } else if (name === "mode") {
     mode.style.display = "block";
     skin.style.display = "none";
+    title.style.display = "none";
   }
 }
 const fecharModal = (name) => {
   if (name === "skin") {
     skin.style.display = "none";
+    title.style.display = "flex";
   } else if (name === "mode") {
     mode.style.display = "none";
+    title.style.display = "flex";
   }
 }
 
 const escolherCor = (cor) => {
   snakeSkin = cor.target.getAttribute("data-valor");
+  sprite.forEach((el) => {
+    el.style.backgroundColor = snakeSkin;
+  })
 }
 const escolherMode = (mode) => {
   gameMode = mode.target.getAttribute("data-valor");
