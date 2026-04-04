@@ -1,29 +1,35 @@
 // CONSTANTES DO JOGO
 const canvas = document.querySelector('.gameBoard');
 const context = canvas.getContext("2d");
-const corButton = document.querySelectorAll(".skinItem")
-const modeButton = document.querySelectorAll(".modeItem")
-const buttonMode = document.getElementById("buttonMode")
-const buttonSkin = document.getElementById("buttonSkin")
+const corButton = document.querySelectorAll(".skinItem");
+const modeButton = document.querySelectorAll(".modeItem");
+const buttonMode = document.getElementById("buttonMode");
+const buttonSkin = document.getElementById("buttonSkin");
 const title = document.querySelector('.title');
-const buttonPauseHome = document.querySelector('.home')
-const buttonPauseRestart = document.querySelector(".restart")
-const divGameIsPause = document.querySelector(".gamePause")
-const sprite = document.querySelectorAll(".sprite")
+const buttonPauseHome = document.querySelector('.home');
+const buttonPauseRestart = document.querySelector(".restart");
+const divGameIsPause = document.querySelector(".gamePause");
+const sprite = document.querySelectorAll(".sprite");
+const gameRange = document.querySelector(".gameRange");
+const buttonPauseHeader = document.querySelector(".outsidePlay");
 
 // VARIAVEIS LET DO JOGO
-let snake = []
+let snake = [];
 let box;
 let snakeSkin = "red";
-let gameMode = "classic"
+let gameMode = "classic";
 let direction;
 let nextDirection = "RIGHT";
 let gameInterval;
 let food = {};
 let gamePause;
 let gameIsActive;
-let collumns = 50
-let rows = 20
+let collumns = 50;
+let rows = 20;
+let touchStartY;
+let touchStartX;
+let touchEndY;
+let touchEndX;
 
 
 
@@ -32,20 +38,16 @@ const abrirModal = (name) => {
   if (name === "skin") {
     skin.style.display = "block";
     mode.style.display = "none";
-    title.style.display = "none";
   } else if (name === "mode") {
     mode.style.display = "block";
     skin.style.display = "none";
-    title.style.display = "none";
   }
 }
 const fecharModal = (name) => {
   if (name === "skin") {
     skin.style.display = "none";
-    title.style.display = "flex";
   } else if (name === "mode") {
     mode.style.display = "none";
-    title.style.display = "flex";
   }
 }
 
@@ -60,56 +62,59 @@ const escolherMode = (mode) => {
 }
 
 const startGame = () => {
-  direction = "RIGHT"
-  nextDirection = "RIGHT"
-  gameIsActive = true
-  title.style.display = "none"
-  buttonSkin.style.display = "none"
-  buttonMode.style.display = "none"
-  ajusteTela()
-  gerarCobra()
-  gerarComida()
+  direction = "RIGHT";
+  nextDirection = "RIGHT";
+  gameIsActive = true;
+  title.style.display = "none";
+  buttonSkin.style.display = "none";
+  buttonMode.style.display = "none";
+  buttonPauseHeader.style.display = "block";
+  ajusteTela();
+  gerarCobra();
+  gerarComida();
   clearInterval(gameInterval);
   gameInterval = setInterval(draw, 200);
 }
 
 const home = () => {
   gamePause = false;
-  gameIsActive = false
-  gerarCobra();
+  gameIsActive = false;
   divGameIsPause.style.display = "none";
   clearInterval(gameInterval);
   context.clearRect(0, 0, canvas.width, canvas.height);
-  title.style.display = "flex"
-  buttonSkin.style.display = "block"
-  buttonMode.style.display = "block"
+  title.style.display = "flex";
+  buttonSkin.style.display = "block";
+  buttonMode.style.display = "block";
 
 }
 const restart = () => {
   gamePause = false;
   divGameIsPause.style.display = "none";
+  buttonPauseHeader.style.display = "block";
   startGame();
 
 }
 
 const ajusteTela = () => {
-  canvas.style.width = "100%"
-  let larguraDisponivel = document.body.clientWidth
+  canvas.style.width = "100%";
+  let larguraDisponivel = gameRange.clientWidth;
   if (larguraDisponivel < 700) {
-    collumns = 20
-    rows = 30
+    collumns = 20;
+    rows = 30;
   } else {
-    collumns = 50
-    rows = 20
+    collumns = 50;
+    rows = 20;
   }
   box = Math.floor(larguraDisponivel / collumns);
-  canvas.width = box * collumns
+  canvas.width = box * collumns;
   canvas.height = box * rows;
-  canvas.style.height = canvas.height + "px"
-  canvas.style.width = canvas.width + "px"
+  canvas.style.height = canvas.height + "px";
+  canvas.style.width = canvas.width + "px";
   console.log("Redimensionando!");
 }
+
 const gerarCobra = () => {
+  snake = []
   let centerX = Math.floor(collumns / 2);
   let centerY = Math.floor(rows / 2);
   snake[0] = { x: centerX, y: centerY };
@@ -118,32 +123,48 @@ const gerarCobra = () => {
 }
 
 const gerarComida = () => {
-  food = {
-    x: Math.floor(Math.random() * collumns),
-    y: Math.floor(Math.random() * rows)
-  };
+  food = {}
+  let inside = false;
+  let newFood = {};
+
+  while (!inside) {
+    newFood = {
+      x: Math.floor(Math.random() * collumns),
+      y: Math.floor(Math.random() * rows)
+    }
+    const foodToHeadColision = snake.some(segmento =>
+      segmento.x === newFood.x && segmento.y === newFood.y
+    );
+
+    if (!foodToHeadColision) {
+      inside = true;
+    }
+  }
+  food = newFood
 }
 
 const gameIsPause = () => {
-  ajusteTela()
+  ajusteTela();
   if (gameInterval && gameIsActive) {
     if (!gamePause) {
       gamePause = true;
       clearInterval(gameInterval);
       divGameIsPause.style.display = "block";
       context.clearRect(0, 0, canvas.width, canvas.height);
-      buttonSkin.style.display = "block"
-      buttonMode.style.display = "block"
+      buttonSkin.style.display = "block";
+      buttonPauseHeader.style.display = "none";
     } else {
       gamePause = false;
       gameInterval = setInterval(draw, 200);
       divGameIsPause.style.display = "none";
+      buttonSkin.style.display = "none";
+      buttonPauseHeader.style.display = "block";
     }
   }
 }
 
 const draw = () => {
-  direction = nextDirection
+  direction = nextDirection;
 
   let snakeX = snake[0].x;
   let snakeY = snake[0].y;
@@ -183,10 +204,7 @@ const draw = () => {
     }
   }
   if (snakeX === food.x && snakeY === food.y) {
-    food = {
-      x: Math.floor(Math.random() * collumns),
-      y: Math.floor(Math.random() * rows)
-    };
+    gerarComida()
   } else {
     snake.pop();
   }
@@ -206,16 +224,16 @@ const directionControl = (event) => {
     gameIsPause()
   }
   if ((event.key == "ArrowUp" || event.key == "w" || event.key == "W") && direction != "DOWN") {
-    nextDirection = "UP"
+    nextDirection = "UP";
   }
   if ((event.key == "ArrowLeft" || event.key == "a" || event.key == "A") && direction != "RIGHT") {
-    nextDirection = "LEFT"
+    nextDirection = "LEFT";
   }
   if ((event.key == "ArrowDown" || event.key == "s" || event.key == "S") && direction != "UP") {
-    nextDirection = "DOWN"
+    nextDirection = "DOWN";
   }
   if ((event.key == "ArrowRight" || event.key == "d" || event.key == "D") && direction != "LEFT") {
-    nextDirection = "RIGHT"
+    nextDirection = "RIGHT";
   }
 };
 
@@ -227,10 +245,10 @@ const drawFood = () => {
 const checkColision = (snakeX, snakeY, snake) => {
   for (let i = 1; i < snake.length; i++) {
     if (snakeX == snake[i].x && snakeY == snake[i].y) {
-      return true
+      return true;
     };
   };
-  return false
+  return false;
 };
 
 
@@ -240,12 +258,35 @@ addEventListener("keydown", directionControl);
 corButton.forEach((botao) => {
   botao.addEventListener("click", (e) => {
     escolherCor(e);
+    corButton.forEach(b => b.classList.remove("ativa"));
+    e.currentTarget.classList.add("ativa");
   });
 });
 modeButton.forEach((botao) => {
   botao.addEventListener("click", (e) => {
     escolherMode(e);
+    modeButton.forEach(b => b.classList.remove("ativa"));
+    e.currentTarget.classList.add("ativa");
   });
 });
 window.addEventListener("load", ajusteTela);
 window.addEventListener("resize", ajusteTela);
+
+canvas.addEventListener("touchstart", (e) => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+});
+canvas.addEventListener("touchend", (e) => {
+  touchEndX = e.changedTouches[0].clientX;
+  touchEndY = e.changedTouches[0].clientY;
+
+  let diffX = touchEndX - touchStartX;
+  let diffY = touchEndY - touchStartY;
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    if (diffX > 0 && direction != "LEFT") nextDirection = "RIGHT";
+    else if (diffX < 0 && direction != "RIGHT") nextDirection = "LEFT";
+  } else {
+    if (diffY > 0 && direction != "UP") nextDirection = "DOWN";
+    else if (diffY < 0 && direction != "DOWN") nextDirection = "UP";
+  }
+});

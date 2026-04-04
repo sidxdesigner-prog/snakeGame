@@ -71,7 +71,7 @@ main {
 }
 
 .gameHeader {
-    /*display: none;*/
+    height: 50px;
     background-color: red;
     width: 100%;
     border-radius: 10px 10px 0px 0px;
@@ -82,6 +82,7 @@ main {
 }
 
 .gameHeader button {
+    display: none;
     width: 50px;
     height: 50px;
     color: #002896;
@@ -99,6 +100,7 @@ main {
 
 .gameBoard {
     cursor: default;
+    border: 1px solid #ccc;
 }
 
 canvas {
@@ -148,6 +150,7 @@ input {
     text-align: center;
     gap: 25px;
     z-index: 10;
+    background-color: white;
 }
 
 .buttonPause {
@@ -191,6 +194,7 @@ input {
     text-align: center;
     gap: 25px;
     z-index: 15;
+    background-color: white;
 }
 
 .skinContent,
@@ -306,6 +310,11 @@ footer {
     margin-top: 3vh;
 }
 
+.ativa {
+    border: 2px solid #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 @keyframes snakeBauncing {
 
     0%,
@@ -331,6 +340,10 @@ footer {
         width: 40px;
         height: 40px;
     }
+
+    .gameHeader button {
+        display: block;
+    }
 }
 
 @media (max-width: 480px) {
@@ -340,6 +353,10 @@ footer {
 
     .headerItem {
         font-size: 24px;
+    }
+
+    .gameHeader button {
+        display: block;
     }
 
 }
@@ -357,6 +374,9 @@ footer {
         width: 80px;
         height: 120px;
     }
+    .gameHeader button {
+        display: block;
+    }
 }
 
 @media (min-width: 800px) {
@@ -371,13 +391,6 @@ footer {
         margin-top: 25px;
         width: 90vw;
         max-width: 900px;
-    }
-
-    .gameHeader{
-        height: 50px;
-    }
-    .gameHeader button {
-        display: none;
     }
 
     .logo {
@@ -397,7 +410,8 @@ footer {
     }
 
     footer {
-        min-width: 90vw;
+        width: 90vw;
+        max-width: 900px;
     }
 
 }
