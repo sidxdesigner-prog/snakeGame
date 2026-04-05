@@ -1,3 +1,5 @@
+import { skinlibrary } from "./advancedSkin";
+
 // CONSTANTES DO JOGO
 const canvas = document.querySelector('.gameBoard');
 const context = canvas.getContext("2d");
@@ -30,6 +32,7 @@ let touchStartY;
 let touchStartX;
 let touchEndY;
 let touchEndX;
+let isAdavancedSkin = false;
 
 
 
@@ -51,8 +54,8 @@ const fecharModal = (name) => {
   }
 }
 
-const escolherCor = (cor) => {
-  snakeSkin = cor.target.getAttribute("data-valor");
+const escolherSkin = (e) => {
+  snakeSkin = e.target.getAttribute("data-valor");
   sprite.forEach((el) => {
     el.style.backgroundColor = snakeSkin;
   })
@@ -257,7 +260,13 @@ const checkColision = (snakeX, snakeY, snake) => {
 addEventListener("keydown", directionControl);
 corButton.forEach((botao) => {
   botao.addEventListener("click", (e) => {
-    escolherCor(e);
+    let indiceSkin = parseInt(e.currentTarget.getAttribute("data-valor"));
+    if (indiceSkin < 4) {
+      snakeSkin = spriteFiles[indiceSkin][0];
+    } else {
+      newdiretorio = skinlibrary[indiceSkin];
+      isAdavancedSkin = true;
+    }
     corButton.forEach(b => b.classList.remove("ativa"));
     e.currentTarget.classList.add("ativa");
   });
