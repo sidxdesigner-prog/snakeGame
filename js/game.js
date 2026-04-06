@@ -1,118 +1,13 @@
-import { carregarSprites, getSegmentRotation } from "./advancedSkin.js";
-
-// CONSTANTES DO JOGO
-const canvas = document.querySelector('.gameBoard');
-const context = canvas.getContext("2d");
-const corButton = document.querySelectorAll(".skinItem");
-const modeButton = document.querySelectorAll(".modeItem");
-const buttonMode = document.getElementById("buttonMode");
-const buttonSkin = document.getElementById("buttonSkin");
-const title = document.querySelector('.title');
-const divGameIsPause = document.querySelector(".gamePause");
-const sprite = document.querySelectorAll(".sprite");
-const gameRange = document.querySelector(".gameRange");
-const buttonPauseHeader = document.querySelector(".outsidePlay");
-
-// VARIAVEIS LET DO JOGO
 let snake = [];
-let box;
-let snakeSkin = "red";
-let gameMode = "classic";
+let food = {};
 let direction;
 let nextDirection = "RIGHT";
-let gameInterval;
-let food = {};
-let gamePause;
-let gameIsActive;
 let collumns = 50;
 let rows = 20;
-let touchStartY;
-let touchStartX;
-let touchEndY;
-let touchEndX;
-let isAdavancedSkin = false;
+let gameMode = "classic";
+let gameIsPause = false
+let gameIsActive = false
 
-
-
-// Functions
-const abrirModal = (name) => {
-  if (name === "skin") {
-    skin.style.display = "block";
-    mode.style.display = "none";
-  } else if (name === "mode") {
-    mode.style.display = "block";
-    skin.style.display = "none";
-  }
-}
-const fecharModal = (name) => {
-  if (name === "skin") {
-    skin.style.display = "none";
-  } else if (name === "mode") {
-    mode.style.display = "none";
-  }
-}
-
-const escolherSkin = (e) => {
-  snakeSkin = e.target.getAttribute("data-valor");
-  sprite.forEach((el) => {
-    el.style.backgroundColor = snakeSkin;
-  })
-}
-const escolherMode = (mode) => {
-  gameMode = mode.target.getAttribute("data-valor");
-}
-
-const startGame = () => {
-  direction = "RIGHT";
-  nextDirection = "RIGHT";
-  gameIsActive = true;
-  title.style.display = "none";
-  buttonSkin.style.display = "none";
-  buttonMode.style.display = "none";
-  buttonPauseHeader.style.display = "block";
-  ajusteTela();
-  gerarCobra();
-  gerarComida();
-  clearInterval(gameInterval);
-  gameInterval = setInterval(draw, 200);
-}
-
-const home = () => {
-  gamePause = false;
-  gameIsActive = false;
-  divGameIsPause.style.display = "none";
-  clearInterval(gameInterval);
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  title.style.display = "flex";
-  buttonSkin.style.display = "block";
-  buttonMode.style.display = "block";
-
-}
-const restart = () => {
-  gamePause = false;
-  divGameIsPause.style.display = "none";
-  buttonPauseHeader.style.display = "block";
-  startGame();
-
-}
-
-const ajusteTela = () => {
-  canvas.style.width = "100%";
-  let larguraDisponivel = gameRange.clientWidth;
-  if (larguraDisponivel < 700) {
-    collumns = 20;
-    rows = 30;
-  } else {
-    collumns = 50;
-    rows = 20;
-  }
-  box = Math.floor(larguraDisponivel / collumns);
-  canvas.width = box * collumns;
-  canvas.height = box * rows;
-  canvas.style.height = canvas.height + "px";
-  canvas.style.width = canvas.width + "px";
-  console.log("Redimensionando!");
-}
 
 const gerarCobra = () => {
   snake = []
@@ -144,28 +39,18 @@ const gerarComida = () => {
   food = newFood
 }
 
-const gameIsPause = () => {
-  ajusteTela();
-  if (gameInterval && gameIsActive) {
-    if (!gamePause) {
-      gamePause = true;
-      clearInterval(gameInterval);
-      divGameIsPause.style.display = "block";
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      buttonSkin.style.display = "block";
-      buttonPauseHeader.style.display = "none";
-    } else {
-      gamePause = false;
-      gameInterval = setInterval(draw, 200);
-      divGameIsPause.style.display = "none";
-      buttonSkin.style.display = "none";
-      buttonPauseHeader.style.display = "block";
-    }
-  }
-}
+const checkColision = (snakeX, snakeY, snake) => {
+  for (let i = 1; i < snake.length - 1; i++) {
+    if (snakeX == snake[i].x && snakeY == snake[i].y) {
+      return true;
+    };
+  };
+  return false;
+};
 
-const draw = () => {
-  context.clearRect(0, 0, canvas.width, canvas.height);
+const updateGame = () => {
+  if (gameIsPause) return;
+
   direction = nextDirection;
 
   let snakeX = snake[0].x;
@@ -179,11 +64,7 @@ const draw = () => {
   if (gameMode === "classic") {
     if (snakeX < 0 || snakeX >= collumns || snakeY < 0 || snakeY >= rows || checkColision(snakeX, snakeY, snake)) {
       gameIsActive = false;
-      gamePause = true;
-      divGameIsPause.style.display = "block";
-      clearInterval(gameInterval);
-      buttonSkin.style.display = "block";
-      buttonMode.style.display = "block";
+      gameIsPause = true;
       return
     }
   } else if (gameMode === "infinite") {
@@ -198,10 +79,7 @@ const draw = () => {
     }
     else if (checkColision(snakeX, snakeY, snake)) {
       gameIsActive = false;
-      divGameIsPause.style.display = "block";
-      clearInterval(gameInterval)
-      buttonSkin.style.display = "block"
-      buttonMode.style.display = "block"
+      gameIsPause = true;
       return
     }
   }
@@ -212,115 +90,41 @@ const draw = () => {
   }
   let newHead = { x: snakeX, y: snakeY };
   snake.unshift(newHead);
-
-  for (let i = 0; i < snake.length; i++) {
-    const atual = snake[i];
-    const sucessor = snake[i - 1]; // Na cabeça (i=0), isso será undefined
-    let anterior = (i < snake.length - 1) ? snake[i + 1] : null;
-
-    if (isAdavancedSkin) {
-      const dados = getSegmentRotation(anterior, atual, sucessor, i, snake);
-
-      if (dados && dados.img) {
-        context.save();
-        context.translate((atual.x * box) + box / 2, (atual.y * box) + box / 2);
-        context.rotate(dados.angulo);
-        context.drawImage(dados.img, -box / 2, -box / 2, box, box);
-        context.restore();
-      }
-    } else {
-      context.fillStyle = snakeSkin;
-      context.fillRect(atual.x * box, atual.y * box, box, box);
-    }
-  }
-  drawFood();
 };
 
-const directionControl = (event) => {
-  if (event.key == " ") {
-    gameIsPause()
+const setNextDirection = (dir) => {
+  const oposit = {
+    UP: "DOWN",
+    DOWN: "UP",
+    LEFT: "RIGHT",
+    RIGHT: "LEFT"
   }
-  if ((event.key == "ArrowUp" || event.key == "w" || event.key == "W") && direction != "DOWN") {
-    nextDirection = "UP";
-  }
-  if ((event.key == "ArrowLeft" || event.key == "a" || event.key == "A") && direction != "RIGHT") {
-    nextDirection = "LEFT";
-  }
-  if ((event.key == "ArrowDown" || event.key == "s" || event.key == "S") && direction != "UP") {
-    nextDirection = "DOWN";
-  }
-  if ((event.key == "ArrowRight" || event.key == "d" || event.key == "D") && direction != "LEFT") {
-    nextDirection = "RIGHT";
-  }
-};
-
-const drawFood = () => {
-  context.fillStyle = "red";
-  context.fillRect(food.x * box, food.y * box, box, box);
-};
-
-const checkColision = (snakeX, snakeY, snake) => {
-  for (let i = 1; i < snake.length; i++) {
-    if (snakeX == snake[i].x && snakeY == snake[i].y) {
-      return true;
-    };
+  if (dir !== oposit[direction]) {
+    nextDirection = dir
   };
-  return false;
-};
+}
 
+const getState = () => {
 
-// eventos listerners
+  let renderSnake = snake.map(segment => {
+    return { x: segment.x, y: segment.y };
+  })
+  let foodRender = { x: food.x, y: food.y };
+  return { renderSnake, foodRender, gameIsPause, gameIsActive};
+}
 
-addEventListener("keydown", directionControl);
-corButton.forEach((botao) => {
-  botao.addEventListener("click", (e) => {
-    let indiceSkin = parseInt(e.currentTarget.getAttribute("data-valor"));
+const startGame = () => {
+  gameIsActive = true;
+  gameIsPause = false
+  nextDirection = "RIGHT";
+  gerarCobra();
+  gerarComida();
+}
 
-    if (indiceSkin < 4) {
-      isAdavancedSkin = false;
-      snakeSkin = coresBases[indiceSkin][0]; 
-    } else {
-      isAdavancedSkin = true;
-      carregarSprites(indiceSkin);
-    }
-    corButton.forEach(b => b.classList.remove("ativa"));
-    e.currentTarget.classList.add("ativa");
-  });
-});
-
-modeButton.forEach((botao) => {
-  botao.addEventListener("click", (e) => {
-    escolherMode(e);
-    modeButton.forEach(b => b.classList.remove("ativa"));
-    e.currentTarget.classList.add("ativa");
-  });
-});
-
-window.addEventListener("load", ajusteTela);
-window.addEventListener("resize", ajusteTela);
-
-canvas.addEventListener("touchstart", (e) => {
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-});
-canvas.addEventListener("touchend", (e) => {
-  touchEndX = e.changedTouches[0].clientX;
-  touchEndY = e.changedTouches[0].clientY;
-
-  let diffX = touchEndX - touchStartX;
-  let diffY = touchEndY - touchStartY;
-  if (Math.abs(diffX) > Math.abs(diffY)) {
-    if (diffX > 0 && direction != "LEFT") nextDirection = "RIGHT";
-    else if (diffX < 0 && direction != "RIGHT") nextDirection = "LEFT";
-  } else {
-    if (diffY > 0 && direction != "UP") nextDirection = "DOWN";
-    else if (diffY < 0 && direction != "DOWN") nextDirection = "UP";
+const gamePause = () => {
+  if (gameIsActive) {
+    (!gameIsPause) ? gameIsPause = true : gameIsPause = false;
   }
-});
+}
 
-window.startGame = startGame;
-window.gameIsPause = gameIsPause;
-window.abrirModal = abrirModal;
-window.fecharModal = fecharModal;
-window.home = home;
-window.restart = restart;
+export { updateGame, getState, setNextDirection, startGame, gerarCobra, gamePause };
