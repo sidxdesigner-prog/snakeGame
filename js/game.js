@@ -1,4 +1,4 @@
-import { skinlibrary } from "./advancedSkin";
+import { carregarSprites, getSegmentRotation } from "./advancedSkin.js";
 
 // CONSTANTES DO JOGO
 const canvas = document.querySelector('.gameBoard');
@@ -8,8 +8,6 @@ const modeButton = document.querySelectorAll(".modeItem");
 const buttonMode = document.getElementById("buttonMode");
 const buttonSkin = document.getElementById("buttonSkin");
 const title = document.querySelector('.title');
-const buttonPauseHome = document.querySelector('.home');
-const buttonPauseRestart = document.querySelector(".restart");
 const divGameIsPause = document.querySelector(".gamePause");
 const sprite = document.querySelectorAll(".sprite");
 const gameRange = document.querySelector(".gameRange");
@@ -167,6 +165,7 @@ const gameIsPause = () => {
 }
 
 const draw = () => {
+  context.clearRect(0, 0, canvas.width, canvas.height);
   direction = nextDirection;
 
   let snakeX = snake[0].x;
@@ -214,10 +213,25 @@ const draw = () => {
   let newHead = { x: snakeX, y: snakeY };
   snake.unshift(newHead);
 
-  context.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < snake.length; i++) {
-    context.fillStyle = snakeSkin;
-    context.fillRect(snake[i].x * box, snake[i].y * box, box, box);
+    const atual = snake[i];
+    const sucessor = snake[i - 1]; // Na cabeça (i=0), isso será undefined
+    let anterior = (i < snake.length - 1) ? snake[i + 1] : null;
+
+    if (isAdavancedSkin) {
+      const dados = getSegmentRotation(anterior, atual, sucessor, i, snake);
+
+      if (dados && dados.img) {
+        context.save();
+        context.translate((atual.x * box) + box / 2, (atual.y * box) + box / 2);
+        context.rotate(dados.angulo);
+        context.drawImage(dados.img, -box / 2, -box / 2, box, box);
+        context.restore();
+      }
+    } else {
+      context.fillStyle = snakeSkin;
+      context.fillRect(atual.x * box, atual.y * box, box, box);
+    }
   }
   drawFood();
 };
@@ -261,16 +275,19 @@ addEventListener("keydown", directionControl);
 corButton.forEach((botao) => {
   botao.addEventListener("click", (e) => {
     let indiceSkin = parseInt(e.currentTarget.getAttribute("data-valor"));
+
     if (indiceSkin < 4) {
-      snakeSkin = spriteFiles[indiceSkin][0];
+      isAdavancedSkin = false;
+      snakeSkin = coresBases[indiceSkin][0]; 
     } else {
-      newdiretorio = skinlibrary[indiceSkin];
       isAdavancedSkin = true;
+      carregarSprites(indiceSkin);
     }
     corButton.forEach(b => b.classList.remove("ativa"));
     e.currentTarget.classList.add("ativa");
   });
 });
+
 modeButton.forEach((botao) => {
   botao.addEventListener("click", (e) => {
     escolherMode(e);
@@ -278,6 +295,7 @@ modeButton.forEach((botao) => {
     e.currentTarget.classList.add("ativa");
   });
 });
+
 window.addEventListener("load", ajusteTela);
 window.addEventListener("resize", ajusteTela);
 
@@ -299,3 +317,10 @@ canvas.addEventListener("touchend", (e) => {
     else if (diffY < 0 && direction != "DOWN") nextDirection = "UP";
   }
 });
+
+window.startGame = startGame;
+window.gameIsPause = gameIsPause;
+window.abrirModal = abrirModal;
+window.fecharModal = fecharModal;
+window.home = home;
+window.restart = restart;
