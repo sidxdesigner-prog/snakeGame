@@ -21,4 +21,7 @@ const initStartGame = () => {
     gameInterval = setInterval(gameLoop, 200);
 }
 
+document.querySelector(".gameStart").addEventListener("click", () => {
+    initStartGame();
+});
 export{initStartGame};

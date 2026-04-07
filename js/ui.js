@@ -1,4 +1,3 @@
-import { initStartGame } from "./main.js"
 import { gamePause, getState, choiceSkinID, updateCanvasConfig } from "./game.js"
 
 const pauseButtonOutside = document.querySelector(".outsidePlay");
@@ -8,10 +7,8 @@ const pauseButtonInside = document.querySelector(".insidePlay");
 const restartButtonPause = document.querySelector(".restart");
 const closeDivSkin = document.querySelector(".skinButtonModal");
 const closeDivMode = document.querySelector(".modeButtonModal");
-const choiceSkin = document.querySelector(".buttonSkin");
-const choiceMode = document.querySelector(".buttonMode");
-const homeButtonGameOver = document.querySelector(".gameOverHome");
-const restartButtonGameOver = document.querySelector(".gameOverRestart");
+const homeButtonGameOver = document.querySelector(".buttonGameOverHome");
+const restartButtonGameOver = document.querySelector(".buttonGameOverRestart");
 const spanNickname = document.querySelector(".spanNickname");
 const spanScore = document.querySelector(".spanScore");
 const spanGameOverNickname = document.querySelector(".spanGameOverNickname");
@@ -27,6 +24,8 @@ const divTitle = document.getElementById('title');
 const divPause = document.getElementById('gamePause');
 const divGameOver = document.getElementById('gameOver');
 const Nickname = document.getElementById('apelido');
+const choiceSkin = document.getElementById("buttonSkin");
+const choiceMode = document.getElementById("buttonMode");
 
 let state;
 
@@ -65,7 +64,6 @@ const handleResize = () => {
 startButton.addEventListener("click", () => {
   spanNickname.innerText = Nickname.value;
   divTitle.style.display = "none";
-  initStartGame();
 });
 
 pauseButtonOutside.addEventListener("click", togglePause);
@@ -103,9 +101,9 @@ restartButtonGameOver.addEventListener("click", () => {
 });
 
 skinItem.forEach(botao => {
-  botao.addEventListener("click", (e) => {
+  botao.addEventListener("click", async (e) => {
     const valueSkin = e.currentTarget.getAttribute("data-valor");
-    await.choiceSkinID(valueSkin);
+    await choiceSkinID(valueSkin) ;
   })
 });
 

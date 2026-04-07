@@ -8,7 +8,6 @@ const skinlibrary = {
   6: "arbok",
   7: "rayquaza"
 }
-const coresBases = [["Green"], ["Blue"], ["Yellow"]]
 const spriteNames = [
   [
     "head.png",
@@ -37,86 +36,82 @@ const carregarSprites = (indiceSkin) => {
     return new Promise((resolve) => {
       const image = new Image();
       image.src = `assets/imagens/${nomePasta}/${nomeArquivo}`;
-      image.onload = () => resolve(); 
+      image.onload = () => resolve();
       const chave = nomeArquivo.replace(".png", "");
       imagensLoad[chave] = image;
     });
-    
+
   });
   return Promise.all(promessas);
 };
 
 const getSegmentRotation = (anterior, atual, sucessor, index, snake) => {
+  const getSprite = (pref, fallback) => {
+    const key = (index === 1 && imagensLoad[pref]) ? pref : fallback;
+    return imagensLoad[key] || imagensLoad[fallback];
+  };
+
+  const getDist = (a, b, max) => {
+    let d = a - b;
+    if (Math.abs(d) > 1) d = d > 0 ? -1 : 1;
+    return d;
+  };
+
+  const dxA = getDist(anterior.x, atual.x);
+  const dyA = getDist(anterior.y, atual.y);
+  const dxS = getDist(sucessor.x, atual.x);
+  const dyS = getDist(sucessor.y, atual.y);
 
   // logica começa pela head para não retornar null ou undefinet, já que o head não tem sucessor a ele ele vai considreal apenas o angulo do movimento do anterior que está a atrás
   if (index === 0) {
-    let anguloHead = 0;
-    if (atual.x > anterior.x) anguloHead = 0; // Direita
-    if (atual.y > anterior.y) anguloHead = Math.PI / 2; // Baixo
-    if (atual.x < anterior.x) anguloHead = Math.PI; // Esquerda
-    if (atual.y < anterior.y) anguloHead = (3 * Math.PI) / 2; // Cima
-
-    return { img: imagensLoad.head, angulo: anguloHead };
+    let ang = (atual.x > anterior.x) ? 0 : (atual.y > anterior.y) ? Math.PI / 2 : (atual.x < anterior.x) ? Math.PI : 3 * Math.PI / 2;
+    if (Math.abs(anterior.x - atual.x) > 1) ang = (atual.x < anterior.x) ? 0 : Math.PI;
+    if (Math.abs(anterior.y - atual.y) > 1) ang = (atual.y < anterior.y) ? Math.PI / 2 : 3 * Math.PI / 2;
+    return { img: imagensLoad.head, angulo: ang };
   }
+
   // logica continua pela tail para não retornar null ou undefinet, já que o nail não tem anterior a ele ele vai considreal apenas o angulo do movimento do sucessor que está a frente
   if (index === snake.length - 1) {
-    return {
-      img: imagensLoad.tail,
-      angulo: (sucessor.x > atual.x) ? 0 :
-        (sucessor.y > atual.y) ? Math.PI / 2 :
-          (sucessor.x < atual.x) ? Math.PI :
-            (3 * Math.PI) / 2
-    };
+    let angulo = 0;
+    if (sucessor.x > atual.x) angulo = 0;
+    if (sucessor.y > atual.y) angulo = Math.PI / 2;
+    if (sucessor.x < atual.x) angulo = Math.PI;
+    if (sucessor.y < atual.y) angulo = (3 * Math.PI) / 2;
+    return { img: imagensLoad.tail, angulo };
   }
 
   //as proximas condicionais definem a curva e o angulo, achei melhor fazer as sprites com mudanças angular doque fazer 24 a 36 imagens de cada uma
-  // Grupo 0° (Vem da Esquerda)
-  if (atual.x > anterior.x) {
-    if (atual.y > sucessor.y) {
-      return { img: (index === 1) ? imagensLoad.armsUp : imagensLoad.curveUp, angulo: 0 };
-    }
-    if (atual.y < sucessor.y) {
-      return { img: (index === 1) ? imagensLoad.armsDown : imagensLoad.curveDown, angulo: 0 };
-    }
+  if (dxA === -1) {
+    if (dyS === -1) return { img: getSprite('armsUp', 'curveUp'), angulo: 0 }; // Vai p/ Cima (up)
+    if (dyS === 1) return { img: getSprite('armsDown', 'curveDown'), angulo: 0 }; // Vai p/ Baixo (down)
   }
 
-  // Grupo 90° (Vem de Cima)
-  if (atual.y > anterior.y) {
-    if (atual.x < sucessor.x) {
-      return { img: (index === 1) ? imagensLoad.armsUp : imagensLoad.curveUp, angulo: Math.PI / 2 };
-    }
-    if (atual.x > sucessor.x) {
-      return { img: (index === 1) ? imagensLoad.armsDown : imagensLoad.curveDown, angulo: Math.PI / 2 };
-    }
+  // GRUPO 180° (Vem da Direita: dxA = 1)
+  if (dxA === 1) {
+    if (dyS === -1) return { img: getSprite('armsUp', 'curveUp'), angulo: Math.PI }; // Vai p/ Cima (up)
+    if (dyS === 1) return { img: getSprite('armsDown', 'curveDown'), angulo: Math.PI }; // Vai p/ Baixo (down)
   }
 
-  // Grupo 180° (Vem da Direita)
-  if (atual.x < anterior.x) {
-    if (atual.y > sucessor.y) {
-      return { img: (index === 1) ? imagensLoad.armsUp : imagensLoad.curveUp, angulo: Math.PI };
-    }
-    if (atual.y < sucessor.y) {
-      return { img: (index === 1) ? imagensLoad.armsDown : imagensLoad.curveDown, angulo: Math.PI };
-    }
+  // GRUPO 90° (Vem de Cima: dyA = -1)
+  if (dyA === -1) {
+    if (dxS === 1) return { img: getSprite('armsUp', 'curveUp'), angulo: Math.PI / 2 }; // Vai p/ Direita (up)
+    if (dxS === -1) return { img: getSprite('armsDown', 'curveDown'), angulo: Math.PI / 2 }; // Vai p/ Esquerda (down)
   }
 
-  // Grupo 270° (Vem de Baixo)
-  if (atual.y < anterior.y) {
-    if (atual.x < sucessor.x) {
-      return { img: (index === 1) ? imagensLoad.armsUp : imagensLoad.curveUp, angulo: (3 * Math.PI) / 2 };
-    }
-    if (atual.x > sucessor.x) {
-      return { img: (index === 1) ? imagensLoad.armsDown : imagensLoad.curveDown, angulo: (3 * Math.PI) / 2 };
-    }
+  // GRUPO 270° (Vem de Baixo: dyA = 1)
+  if (dyA === 1) {
+    if (dxS === 1) return { img: getSprite('armsUp', 'curveUp'), angulo: (3 * Math.PI) / 2 }; // Vai p/ Direita (up)
+    if (dxS === -1) return { img: getSprite('armsDown', 'curveDown'), angulo: (3 * Math.PI) / 2 }; // Vai p/ Esquerda (down)
   }
 
-  // caso não sejá a tail nem curvas o código define a direção de movimento básica.
-  const imagemReta = (index === 1) ? imagensLoad.arms : imagensLoad.body;
-  if (anterior.x > atual.x) return { img: imagemReta, angulo: 0 };
-  if (anterior.y > atual.y) return { img: imagemReta, angulo: Math.PI / 2 };
-  if (anterior.x < atual.x) return { img: imagemReta, angulo: Math.PI };
-  if (anterior.y < atual.y) return { img: imagemReta, angulo: (3 * Math.PI) / 2 };
-
-  // novammentre se houver erro o código retorna algo para poder gerar a skin na direção esquerda -- direita
-  return { img: imagensLoad.body, angulo: 0 };
+  // 4. LÓGICA DE CORPO RETO (Resolvendo a inversão de 180°)
+  const imgReta = getSprite('arms', 'body');
+  // Horizontal
+  if (dyA === 0) {
+    return { img: imgReta, angulo: (atual.x > anterior.x) ? 0 : Math.PI };
+  }
+  // Vertical
+  return { img: imgReta, angulo: (atual.y > anterior.y) ? Math.PI / 2 : 3 * Math.PI / 2 };
 };
+
+export { carregarSprites, getSegmentRotation }

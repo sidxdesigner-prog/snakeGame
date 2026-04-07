@@ -1,4 +1,5 @@
 import { updateScore } from "./ui.js";
+import { carregarSprites } from "./advancedSkin.js";
 
 let snake = [];
 let food = {};
@@ -13,6 +14,7 @@ let score = 0;
 let currentSkin;
 let box;
 let isAdvancedSkin = false;
+let snakeSkin = "blue";
 
 
 const skinlibrary = {
@@ -147,7 +149,7 @@ const getState = () => {
     return { x: segment.x, y: segment.y };
   })
   let foodRender = { x: food.x, y: food.y };
-  return { renderSnake, foodRender, gameIsPause, gameIsActive, score, rows, collumns, box };
+  return { renderSnake, foodRender, gameIsPause, gameIsActive, score, rows, collumns, box, isAdvancedSkin, snakeSkin };
 }
 
 const startGame = () => {
@@ -164,4 +166,4 @@ const gamePause = () => {
   }
 }
 
-export { updateGame, getState, setNextDirection, startGame, gerarCobra, gamePause, updateCanvasConfig, setGameSkin };
+export { updateGame, getState, setNextDirection, startGame, gerarCobra, gamePause, updateCanvasConfig, setGameSkin, choiceSkinID};
