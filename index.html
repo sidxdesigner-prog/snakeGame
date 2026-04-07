@@ -31,7 +31,7 @@
     <div class="gameRange">
 
       <div class="gameHeader">
-        <button class="buttonIsPause outsidePlay" onclick="gameIsPause()"><i class="fa fa-play"
+        <button class="buttonIsPause outsidePlay"><i class="fa fa-play"
             aria-hidden="true"></i></button>
       </div>
 
@@ -42,15 +42,25 @@
         <form>
           <input type="text" id="apelido" placeholder="Apelido">
         </form>
-        <button class="g-Start" onclick="startGame()">Start</button>
+        <button class="gameStart">Start</button>
       </div>
 
       <div class="gamePause" id="gamePause">
         <h1>O jogo <br> Está Pausado</h1>
         <div class="buttonPause">
-          <button class="buttonIsPause home" onclick="home()"><i class="fa-solid fa-house"></i></button>
-          <button class="buttonIsPause insidePlay" onclick="gameIsPause()"><i class="fa fa-play" aria-hidden="true"></i></button>
-          <button class="buttonIsPause restart" onclick="restart()"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+          <button class="buttonIsPause home"><i class="fa-solid fa-house"></i></button>
+          <button class="buttonIsPause insidePlay"><i class="fa fa-play" aria-hidden="true"></i></button>
+          <button class="buttonIsPause restart"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+        </div>
+      </div>
+
+      <div class="gameOver" id="gameOver">
+        <h1>Fim de Jogo</h1>
+        <div class="divGameOver">
+          <p class="nickName">nome:</p>
+          <p class="score">pontuação:</p>
+          <button class="buttonGameOverHome"><i class="fa-solid fa-house"></i></button>
+          <button class="buttonGameOverRestart"><i class="fa-solid fa-arrow-rotate-left"></i></button>
         </div>
       </div>
 
@@ -74,7 +84,7 @@
             <div class="skinItem"  data-valor="7"></div>
             <div class="skinItem"  data-valor="8"><img src="assets/imagens/rayquaza/rayquaza.png" alt="rayquaza"></div>
           </div>
-          <button class="skinButtonModal" onclick="fecharModal('skin')">Concluir</button>
+          <button class="skinButtonModal" >Concluir</button>
         </div>
       </div>
 
@@ -87,13 +97,13 @@
             <div><div class="modeItem infinite" data-valor="infinite"></div>
             <p>infinito</p></div>
           </div>
-          <button class="modeButtonModal" onclick="fecharModal('mode')">Concluir</button>
+          <button class="modeButtonModal">Concluir</button>
         </div>
       </div>
     </div>
     <footer>
-      <button id="buttonSkin" onclick="abrirModal('skin')">Change Skin</button>
-      <button id="buttonMode" onclick="abrirModal('mode')">Change Mode</button>
+      <button id="buttonSkin">Change Skin</button>
+      <button id="buttonMode">Change Mode</button>
     </footer>
   </main>
   <script type="module" src="js/main.js"></script>

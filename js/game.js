@@ -10,7 +10,7 @@ let gameIsActive = false
 
 
 const gerarCobra = () => {
-  snake = []
+  snake = [];
   let centerX = Math.floor(collumns / 2);
   let centerY = Math.floor(rows / 2);
   snake[0] = { x: centerX, y: centerY };
@@ -19,7 +19,7 @@ const gerarCobra = () => {
 }
 
 const gerarComida = () => {
-  food = {}
+  food = {};
   let inside = false;
   let newFood = {};
 
@@ -36,7 +36,7 @@ const gerarComida = () => {
       inside = true;
     }
   }
-  food = newFood
+  food = newFood;
 }
 
 const checkColision = (snakeX, snakeY, snake) => {
@@ -80,11 +80,11 @@ const updateGame = () => {
     else if (checkColision(snakeX, snakeY, snake)) {
       gameIsActive = false;
       gameIsPause = true;
-      return
+      return;
     }
   }
   if (snakeX === food.x && snakeY === food.y) {
-    gerarComida()
+    gerarComida();
   } else {
     snake.pop();
   }
@@ -100,7 +100,7 @@ const setNextDirection = (dir) => {
     RIGHT: "LEFT"
   }
   if (dir !== oposit[direction]) {
-    nextDirection = dir
+    nextDirection = dir;
   };
 }
 
@@ -115,7 +115,7 @@ const getState = () => {
 
 const startGame = () => {
   gameIsActive = true;
-  gameIsPause = false
+  gameIsPause = false;
   nextDirection = "RIGHT";
   gerarCobra();
   gerarComida();

@@ -4,15 +4,17 @@ import { renderGame } from "./render.js"
 let gameInterval;
 
 const gameLoop = () => {
-    updateGame()
-    const state = getState()
-    renderGame(state)
+    updateGame();
+    const state = getState();
+    renderGame(state);
     if (!state.gameIsActive) {
         clearInterval(gameInterval);
     }
 }
-const initstartGame = () => {
+const initStartGame = () => {
     startGame()
     clearInterval(gameInterval);
     gameInterval = setInterval(gameLoop, 200);
 }
+
+export{initStartGame};

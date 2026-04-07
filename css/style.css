@@ -137,7 +137,7 @@ input {
     border: 1px solid #ccc;
 }
 
-.gamePause {
+.gamePause, .gameOver {
     display: none;
     color: #002896;
     font-size: 16pt;
@@ -153,7 +153,7 @@ input {
     background-color: white;
 }
 
-.buttonPause {
+.buttonPause, .divGameOver {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -162,7 +162,7 @@ input {
     z-index: 10;
 }
 
-.buttonIsPause {
+.buttonIsPause, .buttonGameOver {
     width: 50px;
     min-height: 50px;
     border-radius: 10px;
@@ -172,7 +172,7 @@ input {
     border: 1px solid #ccc;
 }
 
-.buttonIsPause:hover {
+.buttonIsPause:hover, .buttonGameOver:hover {
     cursor: pointer;
     color: #fff;
     background-color: #002896;
