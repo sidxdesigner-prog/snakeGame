@@ -1,3 +1,5 @@
+import {updateScore} from "./ui.js";
+
 let snake = [];
 let food = {};
 let direction;
@@ -5,8 +7,9 @@ let nextDirection = "RIGHT";
 let collumns = 50;
 let rows = 20;
 let gameMode = "classic";
-let gameIsPause = false
-let gameIsActive = false
+let gameIsPause = false;
+let gameIsActive = false;
+let score = 0;
 
 
 const gerarCobra = () => {
@@ -85,6 +88,8 @@ const updateGame = () => {
   }
   if (snakeX === food.x && snakeY === food.y) {
     gerarComida();
+    score += 1;
+    updateScore();
   } else {
     snake.pop();
   }
@@ -110,7 +115,7 @@ const getState = () => {
     return { x: segment.x, y: segment.y };
   })
   let foodRender = { x: food.x, y: food.y };
-  return { renderSnake, foodRender, gameIsPause, gameIsActive};
+  return { renderSnake, foodRender, gameIsPause, gameIsActive, score};
 }
 
 const startGame = () => {

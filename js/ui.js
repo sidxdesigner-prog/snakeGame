@@ -10,24 +10,48 @@ const closeDivSkin = document.querySelector(".skinButtonModal");
 const closeDivMode = document.querySelector(".modeButtonModal");
 const choiceSkin = document.querySelector(".buttonSkin");
 const choiceMode = document.querySelector(".buttonMode");
-const homeButtonGameOver = document.querySelector('.gameOverHome')
-const restartButtonGameOver = document.querySelector('.gameOverRestart')
+const homeButtonGameOver = document.querySelector(".gameOverHome");
+const restartButtonGameOver = document.querySelector(".gameOverRestart");
+const spanNickname = document.querySelector(".spanNickname");
+const spanScore = document.querySelector(".spanScore");
+const spanGameOverNickname = document.querySelector(".spanGameOverNickname");
+const spanGameOverScore = document.querySelector(".spanGameOverScore");
 
 const divSkin = document.getElementById('skin');
 const divMode = document.getElementById('mode');
 const divTitle = document.getElementById('title');
 const divPause = document.getElementById('gamePause');
 const divGameOver = document.getElementById('gameOver');
+const Nickname =  document.getElementById('apelido');
+
+let state;
 
 const togglePause = () => {
   gamePause()
-  let state = getState();
+  state = getState();
   if (state.gameIsActive) {
     (state.gameIsPause) ? divPause.style.display = "flex" : divPause.style.display = "none";
   }
 }
 
+const updateScore = ()  =>{
+  state  = getState();
+  spanScore.innerText = state.score;
+
+}
+
+const showGameOver = () =>{
+  state = getState();
+  if (!state.gameIsActive){
+    divGameOver.style.display = "flex";
+    spanGameOverNickname.innerText = Nickname.value;
+    spanGameOverScore.innerText = state().score;
+  } 
+}
+
+
 startButton.addEventListener("click", () => {
+  spanNickname.innerText = Nickname.value;
   divTitle.style.display = "none";
   initStartGame();
 });
@@ -66,4 +90,4 @@ restartButtonGameOver.addEventListener("click", () => {
   initStartGame();
 })
 
-export { togglePause };
+export { togglePause, updateScore, showGameOver};

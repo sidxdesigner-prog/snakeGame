@@ -31,8 +31,9 @@
     <div class="gameRange">
 
       <div class="gameHeader">
-        <button class="buttonIsPause outsidePlay"><i class="fa fa-play"
-            aria-hidden="true"></i></button>
+        <p class="score">Score: <span class="spanScore"></span></p>
+        <button class="buttonIsPause outsidePlay"><i class="fa fa-play" aria-hidden="true"></i></button>
+        <p class="nickname">Score: <span class="spanNickname"></span></p>
       </div>
 
       <canvas class="gameBoard"></canvas>
@@ -57,8 +58,8 @@
       <div class="gameOver" id="gameOver">
         <h1>Fim de Jogo</h1>
         <div class="divGameOver">
-          <p class="nickName">nome:</p>
-          <p class="score">pontuação:</p>
+          <p class="gameOverNickname">nome: <span class="spanGameOverNickname"></span></p>
+          <p class="ameOverscore">pontuação: <span class="spanGameOverScore"></span></p>
           <button class="buttonGameOverHome"><i class="fa-solid fa-house"></i></button>
           <button class="buttonGameOverRestart"><i class="fa-solid fa-arrow-rotate-left"></i></button>
         </div>
@@ -67,7 +68,7 @@
       <div id="skin" class="skinContainer">
         <div class="skinContent">
           <h2>Escolha sua Skin</h2>
-          
+
           <ul class="skinSprite">
             <li class="sprite sHead"></li>
             <li class="sprite sBody"></li>
@@ -78,13 +79,13 @@
             <div class="skinItem" style="background-color: green;" data-valor="0"></div>
             <div class="skinItem" style="background-color: blue;" data-valor="1"></div>
             <div class="skinItem" style="background-color: yellow;" data-valor="2"></div>
-            <div class="skinItem"  data-valor="4"></div>
-            <div class="skinItem"  data-valor="5"></div>
-            <div class="skinItem"  data-valor="6"></div>
-            <div class="skinItem"  data-valor="7"></div>
-            <div class="skinItem"  data-valor="8"><img src="assets/imagens/rayquaza/rayquaza.png" alt="rayquaza"></div>
+            <div class="skinItem" data-valor="4"></div>
+            <div class="skinItem" data-valor="5"></div>
+            <div class="skinItem" data-valor="6"></div>
+            <div class="skinItem" data-valor="7"></div>
+            <div class="skinItem" data-valor="8"><img src="assets/imagens/rayquaza/rayquaza.png" alt="rayquaza"></div>
           </div>
-          <button class="skinButtonModal" >Concluir</button>
+          <button class="skinButtonModal">Concluir</button>
         </div>
       </div>
 
@@ -92,10 +93,14 @@
         <div class="modeContent">
           <h2>Escolha o<br>Modo de Jogo</h2>
           <div class="modeGrid">
-            <div><div class="modeItem classic" data-valor="classic"></div>
-            <p>Clássico</p></div>
-            <div><div class="modeItem infinite" data-valor="infinite"></div>
-            <p>infinito</p></div>
+            <div>
+              <div class="modeItem classic" data-valor="classic"></div>
+              <p>Clássico</p>
+            </div>
+            <div>
+              <div class="modeItem infinite" data-valor="infinite"></div>
+              <p>infinito</p>
+            </div>
           </div>
           <button class="modeButtonModal">Concluir</button>
         </div>
