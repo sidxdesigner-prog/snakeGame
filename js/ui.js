@@ -16,6 +16,7 @@ const spanNickname = document.querySelector(".spanNickname");
 const spanScore = document.querySelector(".spanScore");
 const spanGameOverNickname = document.querySelector(".spanGameOverNickname");
 const spanGameOverScore = document.querySelector(".spanGameOverScore");
+const skinItem = document.querySelectorAll(".skinItem");
 
 const divSkin = document.getElementById('skin');
 const divMode = document.getElementById('mode');
@@ -32,22 +33,22 @@ const togglePause = () => {
   if (state.gameIsActive) {
     (state.gameIsPause) ? divPause.style.display = "flex" : divPause.style.display = "none";
   }
-}
+};
 
 const updateScore = ()  =>{
   state  = getState();
   spanScore.innerText = state.score;
 
-}
+};
 
 const showGameOver = () =>{
   state = getState();
   if (!state.gameIsActive){
     divGameOver.style.display = "flex";
     spanGameOverNickname.innerText = Nickname.value;
-    spanGameOverScore.innerText = state().score;
+    spanGameOverScore.innerText = state.score;
   } 
-}
+};
 
 
 startButton.addEventListener("click", () => {
@@ -57,37 +58,45 @@ startButton.addEventListener("click", () => {
 });
 
 pauseButtonOutside.addEventListener("click", togglePause);
-pauseButtonInside.addEventListener("click", togglePause)
+pauseButtonInside.addEventListener("click", togglePause);
 
 
 choiceMode.addEventListener("click", () => {
   divMode.style.display = "flex";
-})
+});
 closeDivMode.addEventListener("click", () => {
   divMode.style.display = "none";
-})
+});
 
 choiceSkin.addEventListener("click", () => {
   divSkin.style.display = "flex";
-})
+});
 closeDivSkin.addEventListener("click", () => {
   divSkin.style.display = "none";
-})
+});
 
 homeButtonPause.addEventListener("click", () => {
   location.reload()
-})
+});
 restartButtonPause.addEventListener("click", () => {
   divPause.style.display = "none";
   initStartGame();
-})
+});
 
 homeButtonGameOver.addEventListener("click", () => {
   location.reload()
-})
+});
 restartButtonGameOver.addEventListener("click", () => {
   divGameOver.style.display = "none";
   initStartGame();
-})
+});
+
+skinItem.forEach(botao =>{
+  botao.addEventListener("click" , (e) =>{
+    const valueSkin = e.currentTarget.getAttribute("data-valor");
+    choiceSkin(valueSkin);
+  })
+});
+    
 
 export { togglePause, updateScore, showGameOver};

@@ -1,4 +1,5 @@
 import {getState, getSegmentRotation} from "./game"
+
 const renderGame = (state) => {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
