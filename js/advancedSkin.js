@@ -1,12 +1,15 @@
-export const skinlibrary = {
-  4: "gyarados",
-  5: "onix",
-  6: "serperior",
-  7: "arbok",
-  8: "rayquaza"
+const skinlibrary = {
+  0: "blue",
+  1: "yellow",
+  2: "green",
+  3: "gyarados",
+  4: "onix",
+  5: "serperior",
+  6: "arbok",
+  7: "rayquaza"
 }
-export const coresBases = [["Green"], ["Blue"], ["Yellow"]]
-export const spriteNames = [
+const coresBases = [["Green"], ["Blue"], ["Yellow"]]
+const spriteNames = [
   [
     "head.png",
     "body.png",
@@ -25,32 +28,25 @@ export const spriteNames = [
     "armsDown.png"
   ]
 ]
-export let imagensLoad = {};
+let imagensLoad = {};
 
-export const carregarSprites = (indiceSkin) => {
+const carregarSprites = (indiceSkin) => {
   const nomePasta = skinlibrary[indiceSkin]
-  if (indiceSkin == 8) {
-    spriteNames[1].forEach(nomeArquivo => {
+  const arquivos = (indiceSkin == 7) ? spriteNames[1] : spriteNames[0];
+  const promessas = arquivos.map(nomeArquivo => {
+    return new Promise((resolve) => {
       const image = new Image();
       image.src = `assets/imagens/${nomePasta}/${nomeArquivo}`;
-      const chave = nomeArquivo.replace(".png", "");
-      imagensLoad[chave] = image;
-
-    });
-    return;
-  } else {
-    spriteNames[0].forEach(nomeArquivo => {
-      const image = new Image();
-      image.src = `assets/imagens/${nomePasta}/${nomeArquivo}`;
+      image.onload = () => resolve(); 
       const chave = nomeArquivo.replace(".png", "");
       imagensLoad[chave] = image;
     });
-    console.log(`sprites de ${nomePasta}carregados!`);
-  }
+    
+  });
+  return Promise.all(promessas);
+};
 
-}
-
-export const getSegmentRotation = (anterior, atual, sucessor, index, snake) => {
+const getSegmentRotation = (anterior, atual, sucessor, index, snake) => {
 
   // logica começa pela head para não retornar null ou undefinet, já que o head não tem sucessor a ele ele vai considreal apenas o angulo do movimento do anterior que está a atrás
   if (index === 0) {

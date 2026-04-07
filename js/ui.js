@@ -1,5 +1,5 @@
 import { initStartGame } from "./main.js"
-import { gamePause, getState } from "./game.js"
+import { gamePause, getState, choiceSkinID, updateCanvasConfig } from "./game.js"
 
 const pauseButtonOutside = document.querySelector(".outsidePlay");
 const startButton = document.querySelector(".gameStart");
@@ -17,39 +17,50 @@ const spanScore = document.querySelector(".spanScore");
 const spanGameOverNickname = document.querySelector(".spanGameOverNickname");
 const spanGameOverScore = document.querySelector(".spanGameOverScore");
 const skinItem = document.querySelectorAll(".skinItem");
+const canvas = document.querySelector('.gameBoard');
+const context = canvas.getContext("2d");
+const gameRange = document.querySelector(".gameRange");
 
 const divSkin = document.getElementById('skin');
 const divMode = document.getElementById('mode');
 const divTitle = document.getElementById('title');
 const divPause = document.getElementById('gamePause');
 const divGameOver = document.getElementById('gameOver');
-const Nickname =  document.getElementById('apelido');
+const Nickname = document.getElementById('apelido');
 
 let state;
 
 const togglePause = () => {
   gamePause()
-  state = getState();
-  if (state.gameIsActive) {
-    (state.gameIsPause) ? divPause.style.display = "flex" : divPause.style.display = "none";
+  const { gameIsActive } = getState();
+  const { gameIsPause } = getState();
+  if (gameIsActive) {
+    (gameIsPause) ? divPause.style.display = "flex" : divPause.style.display = "none";
   }
 };
 
-const updateScore = ()  =>{
-  state  = getState();
-  spanScore.innerText = state.score;
+const updateScore = () => {
+  const { score } = getState();
+  spanScore.innerText = score;
 
 };
 
-const showGameOver = () =>{
-  state = getState();
-  if (!state.gameIsActive){
+const showGameOver = () => {
+  const { gameIsActive } = getState();
+  if (gameIsActive) {
     divGameOver.style.display = "flex";
     spanGameOverNickname.innerText = Nickname.value;
     spanGameOverScore.innerText = state.score;
-  } 
+  }
 };
 
+const handleResize = () => {
+  let larguraDisponivel = gameRange.clientWidth
+  updateCanvasConfig(larguraDisponivel);
+  const { box, collumns, rows } = getState();
+  canvas.width = box * collumns;
+  canvas.height = box * rows;
+}
 
 startButton.addEventListener("click", () => {
   spanNickname.innerText = Nickname.value;
@@ -91,12 +102,14 @@ restartButtonGameOver.addEventListener("click", () => {
   initStartGame();
 });
 
-skinItem.forEach(botao =>{
-  botao.addEventListener("click" , (e) =>{
+skinItem.forEach(botao => {
+  botao.addEventListener("click", (e) => {
     const valueSkin = e.currentTarget.getAttribute("data-valor");
-    choiceSkin(valueSkin);
+    await.choiceSkinID(valueSkin);
   })
 });
-    
 
-export { togglePause, updateScore, showGameOver};
+window.addEventListener("load", handleResize);
+window.addEventListener("resize", handleResize);
+
+export { togglePause, updateScore, showGameOver, context, handleResize };

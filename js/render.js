@@ -1,9 +1,13 @@
-import {getState, getSegmentRotation} from "./game"
+import { getSegmentRotation, setGameSkin } from "./game.js"
+import {} from "./ui.js"
 
-const renderGame = (state) => {
+const renderGame = (state, context) => {
+    
+    const { renderSnake, foodRender, collumns, rows, box, isAdavancedSkin, snakeSkin  } = state
+
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    for (let i = 0; i < renderSnake.length - 1; i++) {
+    for (let i = 0; i < renderSnake.length; i++) {
         const atual = renderSnake[i];
         const sucessor = (i === 0) ? null : renderSnake[i - 1];
         let anterior = (i < renderSnake.length - 1) ? renderSnake[i + 1] : null;
@@ -23,10 +27,12 @@ const renderGame = (state) => {
             context.fillRect(atual.x * box, atual.y * box, box, box);
         }
     }
-    drawFood()
+    drawFood(context, foodRender, box)
 }
 
-const drawFood = () => {
+const drawFood = (context, food, box) => {
     context.fillStyle = "red";
     context.fillRect(food.x * box, food.y * box, box, box);
 };
+
+export{renderGame};

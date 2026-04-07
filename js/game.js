@@ -1,4 +1,4 @@
-import {updateScore} from "./ui.js";
+import { updateScore } from "./ui.js";
 
 let snake = [];
 let food = {};
@@ -10,7 +10,39 @@ let gameMode = "classic";
 let gameIsPause = false;
 let gameIsActive = false;
 let score = 0;
+let currentSkin;
+let box;
+let isAdvancedSkin = false;
 
+
+const skinlibrary = {
+  0: "blue",
+  1: "yellow",
+  2: "green",
+  3: "gyarados",
+  4: "onix",
+  5: "serperior",
+  6: "arbok",
+  7: "rayquaza"
+}
+
+const choiceSkinID = (id) => {
+  isAdvancedSkin = (parseInt(id) >= 3);
+  if (isAdvancedSkin) {
+    return carregarSprites(id);
+  } else {
+    snakeSkin = skinlibrary[id];
+    return Promise.resolve();
+  }
+}
+
+const setGameSkin = (skinName) => {
+  currentSkin = skinName;
+}
+const updateCanvasConfig = (canvasSize) => {
+  (canvasSize < 700) ? (collumns = 20, rows = 30) : (collumns = 50, rows = 20);
+  box = Math.floor(canvasSize / collumns)
+}
 
 const gerarCobra = () => {
   snake = [];
@@ -115,7 +147,7 @@ const getState = () => {
     return { x: segment.x, y: segment.y };
   })
   let foodRender = { x: food.x, y: food.y };
-  return { renderSnake, foodRender, gameIsPause, gameIsActive, score};
+  return { renderSnake, foodRender, gameIsPause, gameIsActive, score, rows, collumns, box };
 }
 
 const startGame = () => {
@@ -132,4 +164,4 @@ const gamePause = () => {
   }
 }
 
-export { updateGame, getState, setNextDirection, startGame, gerarCobra, gamePause };
+export { updateGame, getState, setNextDirection, startGame, gerarCobra, gamePause, updateCanvasConfig, setGameSkin };
