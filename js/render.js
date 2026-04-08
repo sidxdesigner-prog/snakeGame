@@ -1,8 +1,10 @@
-import { getSegmentRotation } from "./advancedSkin.js"
+import { carregarSprites, getSegmentRotation } from "./advancedSkin.js";
+import { getState } from "./game.js";
+import { handleResize } from "./ui.js";
 
 const renderGame = (state, context) => {
-    
-    const { renderSnake, foodRender, collumns, rows, box, isAdvancedSkin, snakeSkin  } = state
+
+    const { renderSnake, foodRender, box, isAdvancedSkin, snakeSkin } = state
 
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
@@ -34,4 +36,38 @@ const drawFood = (context, food, box) => {
     context.fillRect(food.x * box, food.y * box, box, box);
 };
 
-export{renderGame};
+
+const testRender = async (skinId = 7) => {
+
+    const canvas = document.querySelector('.gameBoard');
+    const ctx = canvas.getContext("2d");
+
+
+    await carregarSprites(skinId);
+
+
+    handleResize();
+
+
+    const mockState = {
+        renderSnake: [
+            { x: 4, y: 10 }, // Head (Sucessor)
+            { x: 4, y: 9 },  // Neck (Atual - Quina)
+            { x: 5, y: 9 }   // Body (Anterior)
+        ],
+        foodRender: { x: 0, y: 0 },
+        box: 20,
+        isAdvancedSkin: true,
+        snakeSkin: "green",
+        gameIsActive: true
+    };
+
+    renderGame(mockState, ctx);
+
+    console.log("🎨 Teste visual renderizado com sucesso!");
+};
+
+
+window.testRender = testRender;
+
+export { renderGame };

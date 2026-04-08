@@ -5,8 +5,8 @@ let snake = [];
 let food = {};
 let direction;
 let nextDirection = "RIGHT";
-let collumns = 50;
-let rows = 20;
+let collumns = 30;
+let rows = 15;
 let gameMode = "classic";
 let gameIsPause = false;
 let gameIsActive = false;
@@ -42,7 +42,7 @@ const setGameSkin = (skinName) => {
   currentSkin = skinName;
 }
 const updateCanvasConfig = (canvasSize) => {
-  (canvasSize < 700) ? (collumns = 20, rows = 30) : (collumns = 50, rows = 20);
+  (canvasSize < 700) ? (collumns = 10, rows = 20) : (collumns = 30, rows = 15);
   box = Math.floor(canvasSize / collumns)
 }
 

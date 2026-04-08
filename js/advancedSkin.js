@@ -51,18 +51,13 @@ const getSegmentRotation = (anterior, atual, sucessor, index, snake) => {
     return imagensLoad[key] || imagensLoad[fallback];
   };
 
-  const getDist = (a, b, max) => {
+  const getDist = (a, b) => {
     let d = a - b;
     if (Math.abs(d) > 1) d = d > 0 ? -1 : 1;
     return d;
   };
 
-  const dxA = getDist(anterior.x, atual.x);
-  const dyA = getDist(anterior.y, atual.y);
-  const dxS = getDist(sucessor.x, atual.x);
-  const dyS = getDist(sucessor.y, atual.y);
-
-  // logica começa pela head para não retornar null ou undefinet, já que o head não tem sucessor a ele ele vai considreal apenas o angulo do movimento do anterior que está a atrás
+  // 1. TRATAMENTO DA CABEÇA (Retorno Antecipado)
   if (index === 0) {
     let ang = (atual.x > anterior.x) ? 0 : (atual.y > anterior.y) ? Math.PI / 2 : (atual.x < anterior.x) ? Math.PI : 3 * Math.PI / 2;
     if (Math.abs(anterior.x - atual.x) > 1) ang = (atual.x < anterior.x) ? 0 : Math.PI;
@@ -70,38 +65,43 @@ const getSegmentRotation = (anterior, atual, sucessor, index, snake) => {
     return { img: imagensLoad.head, angulo: ang };
   }
 
-  // logica continua pela tail para não retornar null ou undefinet, já que o nail não tem anterior a ele ele vai considreal apenas o angulo do movimento do sucessor que está a frente
+  // 2. TRATAMENTO DA CAUDA (Retorno Antecipado)
   if (index === snake.length - 1) {
-    let angulo = 0;
-    if (sucessor.x > atual.x) angulo = 0;
-    if (sucessor.y > atual.y) angulo = Math.PI / 2;
-    if (sucessor.x < atual.x) angulo = Math.PI;
-    if (sucessor.y < atual.y) angulo = (3 * Math.PI) / 2;
-    return { img: imagensLoad.tail, angulo };
+    let ang = (sucessor.x > atual.x) ? 0 : (sucessor.y > atual.y) ? Math.PI / 2 : (sucessor.x < atual.x) ? Math.PI : 3 * Math.PI / 2;
+    if (Math.abs(sucessor.x - atual.x) > 1) ang = (sucessor.x < atual.x) ? 0 : Math.PI;
+    if (Math.abs(sucessor.y - atual.y) > 1) ang = (sucessor.y < atual.y) ? Math.PI / 2 : 3 * Math.PI / 2;
+    return { img: imagensLoad.tail, angulo: ang };
   }
+
+  // 3. SÓ AGORA CALCULAMOS AS DISTÂNCIAS (Área Segura)
+  const dxA = getDist(anterior.x, atual.x);
+  const dyA = getDist(anterior.y, atual.y);
+  const dxS = getDist(sucessor.x, atual.x); // Aqui o sucessor nunca será null!
+  const dyS = getDist(sucessor.y, atual.y);
 
   //as proximas condicionais definem a curva e o angulo, achei melhor fazer as sprites com mudanças angular doque fazer 24 a 36 imagens de cada uma
   if (dxA === -1) {
-    if (dyS === -1) return { img: getSprite('armsUp', 'curveUp'), angulo: 0 }; // Vai p/ Cima (up)
-    if (dyS === 1) return { img: getSprite('armsDown', 'curveDown'), angulo: 0 }; // Vai p/ Baixo (down)
+    // Se vai p/ CIMA, usamos 'down'. Se vai p/ BAIXO, usamos 'up'.
+    if (dyS === -1) return { img: getSprite('armsUp', 'curveUp'), angulo: 0 };
+    if (dyS === 1) return { img: getSprite('armsDown', 'curveDown'), angulo: 0 };
   }
 
   // GRUPO 180° (Vem da Direita: dxA = 1)
   if (dxA === 1) {
-    if (dyS === -1) return { img: getSprite('armsUp', 'curveUp'), angulo: Math.PI }; // Vai p/ Cima (up)
-    if (dyS === 1) return { img: getSprite('armsDown', 'curveDown'), angulo: Math.PI }; // Vai p/ Baixo (down)
+    if (dyS === -1) return { img: getSprite('armsDown', 'curveDown'), angulo: Math.PI };
+    if (dyS === 1) return { img: getSprite('armsUp', 'curveUp'), angulo: Math.PI };
   }
 
   // GRUPO 90° (Vem de Cima: dyA = -1)
   if (dyA === -1) {
-    if (dxS === 1) return { img: getSprite('armsUp', 'curveUp'), angulo: Math.PI / 2 }; // Vai p/ Direita (up)
-    if (dxS === -1) return { img: getSprite('armsDown', 'curveDown'), angulo: Math.PI / 2 }; // Vai p/ Esquerda (down)
+    if (dxS === 1) return { img: getSprite('armsUp', 'curveUp'), angulo: Math.PI / 2 };
+    if (dxS === -1) return { img: getSprite('armsDown', 'curveDown'), angulo: Math.PI / 2 };
   }
 
   // GRUPO 270° (Vem de Baixo: dyA = 1)
   if (dyA === 1) {
-    if (dxS === 1) return { img: getSprite('armsUp', 'curveUp'), angulo: (3 * Math.PI) / 2 }; // Vai p/ Direita (up)
-    if (dxS === -1) return { img: getSprite('armsDown', 'curveDown'), angulo: (3 * Math.PI) / 2 }; // Vai p/ Esquerda (down)
+    if (dxS === 1) return { img: getSprite('armsDown', 'curveDown'), angulo: (3 * Math.PI) / 2 };
+    if (dxS === -1) return { img: getSprite('armsUp', 'curveUp'), angulo: (3 * Math.PI) / 2 };
   }
 
   // 4. LÓGICA DE CORPO RETO (Resolvendo a inversão de 180°)

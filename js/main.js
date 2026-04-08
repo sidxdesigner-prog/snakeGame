@@ -18,7 +18,7 @@ const initStartGame = () => {
     handleResize()
     startGame()
     clearInterval(gameInterval);
-    gameInterval = setInterval(gameLoop, 200);
+    gameInterval = setInterval(gameLoop, 400);
 }
 
 document.querySelector(".gameStart").addEventListener("click", () => {
