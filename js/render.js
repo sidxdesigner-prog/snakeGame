@@ -12,6 +12,8 @@ const renderGame = (state, context) => {
         const atual = renderSnake[i];
         const sucessor = (i === 0) ? null : renderSnake[i - 1];
         let anterior = (i < renderSnake.length - 1) ? renderSnake[i + 1] : null;
+        context.imageSmoothingQuality = 'high';
+        context.imageSmoothingEnabled = true;
 
         if (isAdvancedSkin) {
             const dados = getSegmentRotation(anterior, atual, sucessor, i, renderSnake);
