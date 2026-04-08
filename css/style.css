@@ -13,6 +13,7 @@ body {
     flex-direction: column;
     align-items: center;
     user-select: none;
+    scrollbar-arrow-color: red;
 }
 
 button,
@@ -91,6 +92,7 @@ main {
     border-radius: 3px;
 }
 
+
 .gameHeader button:hover {
     cursor: pointer;
     color: #fff;
@@ -99,9 +101,11 @@ main {
 }
 
 .gameBoard {
+    display: flex;
     cursor: default;
     border: 1px solid #ccc;
 }
+
 
 canvas {
     background-color: #fff;
@@ -120,6 +124,15 @@ canvas {
     z-index: 5;
 }
 
+#typeDiv {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 70vw;
+    gap: 45vw;
+    bottom: 20px;
+}
 .title span {
     color: #002896;
 }
@@ -162,7 +175,7 @@ input {
     z-index: 10;
 }
 
-.buttonIsPause, .buttonGameOver {
+.buttonIsPause, .buttonGameOverHome, .buttonGameOverRestart {
     width: 50px;
     min-height: 50px;
     border-radius: 10px;
@@ -180,30 +193,66 @@ input {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#skin,
-#mode {
+#skin {
     display: none;
     color: #002896;
-    font-size: 16pt;
-    font-weight: 800;
+    font-size: 12pt;
+    font-weight: 600;
     user-select: none;
     position: absolute;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    gap: 25px;
     z-index: 15;
     background-color: white;
+    border-radius: 20px;
+    margin-top: 30px;
 }
 
-.skinContent,
-.modeContent {
+.skinContent{
+    min-width: 60vw;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 35px;
+}
+
+.skinContent button{
+    bottom: 10px;
+}
+
+#mode {
+    display: none;
+    color: #002896;
+    font-size: 12pt;
+    font-weight: 600;
+    user-select: none;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 15;
+    background-color: white;
+    border-radius: 20px;
+    margin-top: 50px;
+}
+
+.modeContent {
+    min-width: 60vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3vh;
+}
+
+.modeGrid{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8vh;
 }
 
 .skinSprite {
@@ -240,11 +289,8 @@ input {
     animation-delay: .6s;
 }
 
-.skinGrid,
-.modeGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+.skinGrid {
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
@@ -252,8 +298,8 @@ input {
 
 .skinItem {
     cursor: pointer;
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     border: #ccc;
     border-radius: 60px;
 }
@@ -307,14 +353,6 @@ input {
     background-color: red;
 }
 
-footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    max-width: 70vw;
-    margin: 0 auto;
-    margin-top: 3vh;
-}
 
 .ativa {
     border: 2px solid #000;
@@ -395,8 +433,8 @@ footer {
 
     .gameRange {
         margin-top: 25px;
-        width: 90vw;
-        max-width: 900px;
+        width: 80vw;
+        max-width: 800px;
     }
 
     .logo {

@@ -1,4 +1,4 @@
-import { gamePause, getState, choiceSkinID, updateCanvasConfig } from "./game.js"
+import { gamePause, getState, choiceSkinID, updateCanvasConfig, selectMode } from "./game.js"
 
 const pauseButtonOutside = document.querySelector(".outsidePlay");
 const startButton = document.querySelector(".gameStart");
@@ -14,6 +14,7 @@ const spanScore = document.querySelector(".spanScore");
 const spanGameOverNickname = document.querySelector(".spanGameOverNickname");
 const spanGameOverScore = document.querySelector(".spanGameOverScore");
 const skinItem = document.querySelectorAll(".skinItem");
+const modeItem = document.querySelectorAll(".modeItem");
 const canvas = document.querySelector('.gameBoard');
 const context = canvas.getContext("2d");
 const gameRange = document.querySelector(".gameRange");
@@ -46,7 +47,7 @@ const updateScore = () => {
 
 const showGameOver = () => {
   const { gameIsActive } = getState();
-  if (gameIsActive) {
+  if (!gameIsActive) {
     divGameOver.style.display = "flex";
     spanGameOverNickname.innerText = Nickname.value;
     spanGameOverScore.innerText = state.score;
@@ -72,16 +73,24 @@ pauseButtonInside.addEventListener("click", togglePause);
 
 choiceMode.addEventListener("click", () => {
   divMode.style.display = "flex";
+  choiceMode.style.display = "none";
+  choiceSkin.style.display = "none";
 });
 closeDivMode.addEventListener("click", () => {
   divMode.style.display = "none";
+  choiceMode.style.display = "block";
+  choiceSkin.style.display = "block";
 });
 
 choiceSkin.addEventListener("click", () => {
   divSkin.style.display = "flex";
+  choiceMode.style.display = "none";
+  choiceSkin.style.display = "none";
 });
 closeDivSkin.addEventListener("click", () => {
   divSkin.style.display = "none";
+  choiceMode.style.display = "block";
+  choiceSkin.style.display = "block";
 });
 
 homeButtonPause.addEventListener("click", () => {
@@ -104,6 +113,17 @@ skinItem.forEach(botao => {
   botao.addEventListener("click", async (e) => {
     const valueSkin = e.currentTarget.getAttribute("data-valor");
     await choiceSkinID(valueSkin) ;
+    skinItem.forEach(b => b.classList.remove("ativa"));
+    e.currentTarget.classList.add("ativa");
+  })
+});
+
+modeItem.forEach(botao => {
+  botao.addEventListener("click", async (e) => {
+    const valueMode = e.currentTarget.getAttribute("data-valor");
+    selectMode(valueMode);
+    modeItem.forEach(b => b.classList.remove("ativa"));
+    e.currentTarget.classList.add("ativa");
   })
 });
 

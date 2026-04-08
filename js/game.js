@@ -28,6 +28,9 @@ const skinlibrary = {
   7: "rayquaza"
 }
 
+const selectMode = (mode) =>{
+  gameMode = String(mode);
+}
 const choiceSkinID = (id) => {
   isAdvancedSkin = (parseInt(id) >= 3);
   if (isAdvancedSkin) {
@@ -42,7 +45,7 @@ const setGameSkin = (skinName) => {
   currentSkin = skinName;
 }
 const updateCanvasConfig = (canvasSize) => {
-  (canvasSize < 700) ? (collumns = 10, rows = 20) : (collumns = 30, rows = 15);
+  (canvasSize < 700) ? (collumns = 20, rows = 50) : (collumns = 50, rows = 20);
   box = Math.floor(canvasSize / collumns)
 }
 
@@ -166,4 +169,4 @@ const gamePause = () => {
   }
 }
 
-export { updateGame, getState, setNextDirection, startGame, gerarCobra, gamePause, updateCanvasConfig, setGameSkin, choiceSkinID};
+export { updateGame, getState, setNextDirection, startGame, gerarCobra, gamePause, updateCanvasConfig, setGameSkin, choiceSkinID, selectMode};
