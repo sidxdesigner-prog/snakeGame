@@ -1,10 +1,11 @@
-import { gamePause, getState, choiceSkinID, updateCanvasConfig, selectMode, touchMove } from "./game.js"
-import { updateSkinView } from "./render.js"
+import { gamePause, getState, choiceSkinID, updateCanvasConfig, selectMode, touchMove } from "./game.js";
+import { updateSkinView } from "./render.js";
+import { initStartGame } from "./main.js";
 
-const pauseButtonOutside = document.querySelector(".outsidePlay");
+const pauseButtonOut = document.querySelector(".buttonIsPauseOut");
 const startButton = document.querySelector(".gameStart");
 const homeButtonPause = document.querySelector(".home");
-const pauseButtonInside = document.querySelector(".insidePlay");
+const pauseButtonIn = document.querySelector(".buttonIsPauseIn");
 const restartButtonPause = document.querySelector(".restart");
 const closeDivSkin = document.querySelector(".skinButtonModal");
 const closeDivMode = document.querySelector(".modeButtonModal");
@@ -44,8 +45,13 @@ const togglePause = () => {
   const { gameIsActive } = getState();
   const { gameIsPause } = getState();
   if (gameIsActive) {
-    (gameIsPause) ? divPause.style.display = "flex" : divPause.style.display = "none";
-    (gameIsActive) ? pauseButtonOutside = "block" : pauseButtonOutside = "none";
+    if (gameIsPause) {
+      divPause.style.display = "flex";
+      pauseButtonOut.style.display = "none";
+    } else {
+      divPause.style.display = "none";
+      pauseButtonOut.style.display = "block";
+    }
   }
 };
 
@@ -75,19 +81,21 @@ const handleResize = () => {
 
 const shadowAddClass = () => {
   spriteItems.forEach(item => item.classList.add("noShadow"));
-    }
+}
 
 const shadowRemoveClass = () => {
   spriteItems.forEach(item => item.classList.remove("noShadow"));
-    }
+}
 
 startButton.addEventListener("click", () => {
   spanNickname.innerText = Nickname.value;
   divTitle.style.display = "none";
+  choiceMode.style.display = "none";
+  choiceSkin.style.display = "none";
 });
 
-pauseButtonOutside.addEventListener("click", togglePause);
-pauseButtonInside.addEventListener("click", togglePause);
+pauseButtonOut.addEventListener("click", togglePause);
+pauseButtonIn.addEventListener("click", togglePause);
 
 
 choiceMode.addEventListener("click", () => {

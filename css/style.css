@@ -82,7 +82,7 @@ main {
     padding: 5px;
 }
 
-.outsidePlay {
+.buttonIsPauseOut {
     display: none;
     width: 50px;
     height: 50px;
@@ -93,7 +93,7 @@ main {
 }
 
 
-.outsidePlay:hover {
+.buttonIsPauseOut:hover {
     cursor: pointer;
     color: #fff;
     background-color: #002896;
@@ -166,7 +166,7 @@ input {
     background-color: white;
 }
 
-.buttonPause, .divGameOver {
+.buttonPause,.divGameOver {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,7 +175,15 @@ input {
     z-index: 10;
 }
 
-.buttonIsPause, .buttonGameOverHome, .buttonGameOverRestart {
+.divGameOver{
+    flex-direction: column;
+}
+
+.buttonsGameOver{
+display: flex;
+gap: 50px;
+}
+.buttonIsPause, .buttonGameOverHome, .buttonGameOverRestart,.buttonIsPauseIn {
     width: 50px;
     min-height: 50px;
     border-radius: 10px;
@@ -185,7 +193,7 @@ input {
     border: 1px solid #ccc;
 }
 
-.buttonIsPause:hover, .buttonGameOver:hover {
+.buttonIsPause:hover, .buttonGameOverHome:hover,.buttonGameOverRestart:hover,.buttonIsPauseIn:hover {
     cursor: pointer;
     color: #fff;
     background-color: #002896;
@@ -401,10 +409,6 @@ input {
         width: 40px;
         height: 40px;
     }
-
-    .gameHeader button {
-        display: block;
-    }
 }
 
 @media (max-width: 480px) {
@@ -414,10 +418,6 @@ input {
 
     .headerItem {
         font-size: 24px;
-    }
-
-    .gameHeader button {
-        display: block;
     }
 
 }
@@ -435,7 +435,7 @@ input {
         width: 80px;
         height: 120px;
     }
-    .gameHeader button {
+    .buttonIsPauseOut {
         display: block;
     }
 }

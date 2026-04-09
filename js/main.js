@@ -1,6 +1,6 @@
 import { updateGame, getState, startGame } from "./game.js";
 import { renderGame } from "./render.js";
-import { showGameOver, handleResize, context } from "./ui.js";
+import { showGameOver, handleResize, context, togglePause} from "./ui.js";
 
 
 let gameInterval;
@@ -15,8 +15,9 @@ const gameLoop = () => {
     }
 }
 const initStartGame = () => {
-    handleResize()
-    startGame()
+    handleResize();
+    startGame();
+    togglePause();
     clearInterval(gameInterval);
     gameInterval = setInterval(gameLoop, 400);
 }
