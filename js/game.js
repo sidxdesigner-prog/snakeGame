@@ -18,9 +18,9 @@ let snakeSkin = "blue";
 
 
 const skinlibrary = {
-  0: "blue",
-  1: "yellow",
-  2: "green",
+  0: "green",
+  1: "blue",
+  2: "yellow",
   3: "gyarados",
   4: "onix",
   5: "serperior",
@@ -45,7 +45,7 @@ const setGameSkin = (skinName) => {
   currentSkin = skinName;
 }
 const updateCanvasConfig = (canvasSize) => {
-  (canvasSize < 700) ? (collumns = 20, rows = 50) : (collumns = 50, rows = 20);
+  (canvasSize < 700) ? (collumns = 15, rows = 30) : (collumns = 30, rows = 15);
   box = Math.floor(canvasSize / collumns)
 }
 
