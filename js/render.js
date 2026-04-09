@@ -1,6 +1,5 @@
-import { carregarSprites, getSegmentRotation } from "./advancedSkin.js";
-import { getState } from "./game.js";
-import { handleResize } from "./ui.js";
+import { getSegmentRotation, skinLibrary } from "./advancedSkin.js";
+import { previewHead, previewBody, previewTail, shadowAddClass, shadowRemoveClass } from "./ui.js";
 
 const renderGame = (state, context) => {
 
@@ -39,37 +38,27 @@ const drawFood = (context, food, box) => {
 };
 
 
-const testRender = async (skinId = 7) => {
-
-    const canvas = document.querySelector('.gameBoard');
-    const ctx = canvas.getContext("2d");
-
-
-    await carregarSprites(skinId);
-
-
-    handleResize();
-
-
-    const mockState = {
-        renderSnake: [
-            { x: 4, y: 10 }, // Head (Sucessor)
-            { x: 4, y: 9 },  // Neck (Atual - Quina)
-            { x: 5, y: 9 }   // Body (Anterior)
-        ],
-        foodRender: { x: 0, y: 0 },
-        box: 20,
-        isAdvancedSkin: true,
-        snakeSkin: "green",
-        gameIsActive: true
-    };
-
-    renderGame(mockState, ctx);
-
-    console.log("🎨 Teste visual renderizado com sucesso!");
-};
+const updateSkinView = (id) => {
+    let skinName = skinLibrary[id]
+    let elem = [previewHead, previewBody, previewTail]
+    if (id < 3) {
+        shadowRemoveClass();
+        elem.forEach(el => {
+            el.style.backgroundImage = "none";
+            el.style.backgroundColor = skinName;
+        })
+    } else {
+        shadowAddClass();
+        elem.forEach(el => {
+            el.style.backgroundColor = "transparent";
+            el.style.backgroundSize = "cover";
+            el.style.backgroundPosition = "center";
+        });
+        previewHead.style.backgroundImage = `url('assets/imagens/${skinName}/head.png')`;
+        previewBody.style.backgroundImage = `url('assets/imagens/${skinName}/body.png')`;
+        previewTail.style.backgroundImage = `url('assets/imagens/${skinName}/tail.png')`;
+    }
+}
 
 
-window.testRender = testRender;
-
-export { renderGame };
+export { renderGame, updateSkinView};

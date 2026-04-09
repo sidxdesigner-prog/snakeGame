@@ -1,5 +1,5 @@
 import { updateScore } from "./ui.js";
-import { carregarSprites } from "./advancedSkin.js";
+import { carregarSprites, skinLibrary } from "./advancedSkin.js";
 
 let snake = [];
 let food = {};
@@ -23,17 +23,6 @@ let diffX;
 let diffY;
 
 
-const skinlibrary = {
-  0: "green",
-  1: "blue",
-  2: "yellow",
-  3: "gyarados",
-  4: "onix",
-  5: "serperior",
-  6: "arbok",
-  7: "rayquaza"
-}
-
 const selectMode = (mode) =>{
   gameMode = String(mode);
 }
@@ -42,7 +31,7 @@ const choiceSkinID = (id) => {
   if (isAdvancedSkin) {
     return carregarSprites(id);
   } else {
-    snakeSkin = skinlibrary[id];
+    snakeSkin = skinLibrary[id];
     return Promise.resolve();
   }
 }

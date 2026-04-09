@@ -1,4 +1,5 @@
 import { gamePause, getState, choiceSkinID, updateCanvasConfig, selectMode, touchMove } from "./game.js"
+import { updateSkinView } from "./render.js"
 
 const pauseButtonOutside = document.querySelector(".outsidePlay");
 const startButton = document.querySelector(".gameStart");
@@ -18,6 +19,10 @@ const modeItem = document.querySelectorAll(".modeItem");
 const canvas = document.querySelector('.gameBoard');
 const context = canvas.getContext("2d");
 const gameRange = document.querySelector(".gameRange");
+const previewHead = document.querySelector(".sHead");
+const previewBody = document.querySelector(".sBody");
+const previewTail = document.querySelector(".sTail");
+const spriteItems = document.querySelectorAll(".skinSprite li");
 
 const divSkin = document.getElementById('skin');
 const divMode = document.getElementById('mode');
@@ -40,6 +45,7 @@ const togglePause = () => {
   const { gameIsPause } = getState();
   if (gameIsActive) {
     (gameIsPause) ? divPause.style.display = "flex" : divPause.style.display = "none";
+    (gameIsActive) ? pauseButtonOutside = "block" : pauseButtonOutside = "none";
   }
 };
 
@@ -65,6 +71,15 @@ const handleResize = () => {
   canvas.width = box * collumns;
   canvas.height = box * rows;
 }
+
+
+const shadowAddClass = () => {
+  spriteItems.forEach(item => item.classList.add("noShadow"));
+    }
+
+const shadowRemoveClass = () => {
+  spriteItems.forEach(item => item.classList.remove("noShadow"));
+    }
 
 startButton.addEventListener("click", () => {
   spanNickname.innerText = Nickname.value;
@@ -115,10 +130,12 @@ restartButtonGameOver.addEventListener("click", () => {
 
 skinItem.forEach(botao => {
   botao.addEventListener("click", async (e) => {
+    const alvoClicado = e.currentTarget;
     const valueSkin = e.currentTarget.getAttribute("data-valor");
     await choiceSkinID(valueSkin);
+    updateSkinView(valueSkin);
     skinItem.forEach(b => b.classList.remove("ativa"));
-    e.currentTarget.classList.add("ativa");
+    alvoClicado.classList.add("ativa");
   })
 });
 
@@ -136,16 +153,16 @@ window.addEventListener("resize", handleResize);
 
 
 canvas.addEventListener("touchstart", (e) => {
-  
+
   touchStartX = e.touches[0].clientX;
   touchStartY = e.touches[0].clientY;
 });
 canvas.addEventListener("touchend", (e) => {
   touchEndX = e.changedTouches[0].clientX;
   touchEndY = e.changedTouches[0].clientY;
-  touchMove(touchStartX,touchStartY,touchEndX,touchEndY)
+  touchMove(touchStartX, touchStartY, touchEndX, touchEndY)
 })
 
 
 
-export { togglePause, updateScore, showGameOver, context, handleResize };
+export { togglePause, updateScore, showGameOver, context, handleResize, previewHead, previewBody, previewTail, shadowAddClass, shadowRemoveClass };

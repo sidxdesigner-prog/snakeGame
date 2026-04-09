@@ -1,4 +1,4 @@
-const skinlibrary = {
+const skinLibrary = {
   0: "blue",
   1: "yellow",
   2: "green",
@@ -30,7 +30,7 @@ const spriteNames = [
 let imagensLoad = {};
 
 const carregarSprites = (indiceSkin) => {
-  const nomePasta = skinlibrary[indiceSkin]
+  const nomePasta = skinLibrary[indiceSkin]
   const arquivos = (indiceSkin == 7) ? spriteNames[1] : spriteNames[0];
   const promessas = arquivos.map(nomeArquivo => {
     return new Promise((resolve) => {
@@ -114,4 +114,4 @@ const getSegmentRotation = (anterior, atual, sucessor, index, snake) => {
   return { img: imgReta, angulo: (atual.y > anterior.y) ? Math.PI / 2 : 3 * Math.PI / 2 };
 };
 
-export { carregarSprites, getSegmentRotation }
+export { carregarSprites, getSegmentRotation, skinLibrary}
