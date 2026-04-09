@@ -15,6 +15,12 @@ let currentSkin;
 let box;
 let isAdvancedSkin = false;
 let snakeSkin = "blue";
+let touchStartY;
+let touchStartX;
+let touchEndY;
+let touchEndX;
+let diffX;
+let diffY;
 
 
 const skinlibrary = {
@@ -146,13 +152,25 @@ const setNextDirection = (dir) => {
   };
 }
 
+const touchMove = (touchStartX, touchStartY, touchEndX, touchEndY) =>{
+  diffX = touchEndX - touchStartX;
+  diffY = touchEndY - touchStartY;
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    if (diffX > 0 && direction != "LEFT") nextDirection = "RIGHT";
+    else if (diffX < 0 && direction != "RIGHT") nextDirection = "LEFT";
+  } else {
+    if (diffY > 0 && direction != "UP") nextDirection = "DOWN";
+    else if (diffY < 0 && direction != "DOWN") nextDirection = "UP";
+  }
+}
+
 const getState = () => {
 
   let renderSnake = snake.map(segment => {
     return { x: segment.x, y: segment.y };
   })
   let foodRender = { x: food.x, y: food.y };
-  return { renderSnake, foodRender, gameIsPause, gameIsActive, score, rows, collumns, box, isAdvancedSkin, snakeSkin };
+  return { renderSnake, foodRender, gameIsPause, gameIsActive, score, rows, collumns, box, isAdvancedSkin, snakeSkin, touchStartX, touchEndX, touchStartY, touchEndY };
 }
 
 const startGame = () => {
@@ -169,4 +187,4 @@ const gamePause = () => {
   }
 }
 
-export { updateGame, getState, setNextDirection, startGame, gerarCobra, gamePause, updateCanvasConfig, setGameSkin, choiceSkinID, selectMode};
+export { updateGame, getState, setNextDirection, startGame, gerarCobra, gamePause, updateCanvasConfig, setGameSkin, choiceSkinID, selectMode, touchMove};

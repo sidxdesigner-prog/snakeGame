@@ -1,4 +1,4 @@
-import { gamePause, getState, choiceSkinID, updateCanvasConfig, selectMode } from "./game.js"
+import { gamePause, getState, choiceSkinID, updateCanvasConfig, selectMode, touchMove } from "./game.js"
 
 const pauseButtonOutside = document.querySelector(".outsidePlay");
 const startButton = document.querySelector(".gameStart");
@@ -29,6 +29,10 @@ const choiceSkin = document.getElementById("buttonSkin");
 const choiceMode = document.getElementById("buttonMode");
 
 let state;
+let touchStartX;
+let touchStartY;
+let touchEndX;
+let touchEndY;
 
 const togglePause = () => {
   gamePause()
@@ -112,7 +116,7 @@ restartButtonGameOver.addEventListener("click", () => {
 skinItem.forEach(botao => {
   botao.addEventListener("click", async (e) => {
     const valueSkin = e.currentTarget.getAttribute("data-valor");
-    await choiceSkinID(valueSkin) ;
+    await choiceSkinID(valueSkin);
     skinItem.forEach(b => b.classList.remove("ativa"));
     e.currentTarget.classList.add("ativa");
   })
@@ -129,5 +133,19 @@ modeItem.forEach(botao => {
 
 window.addEventListener("load", handleResize);
 window.addEventListener("resize", handleResize);
+
+
+canvas.addEventListener("touchstart", (e) => {
+  
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+});
+canvas.addEventListener("touchend", (e) => {
+  touchEndX = e.changedTouches[0].clientX;
+  touchEndY = e.changedTouches[0].clientY;
+  touchMove(touchStartX,touchStartY,touchEndX,touchEndY)
+})
+
+
 
 export { togglePause, updateScore, showGameOver, context, handleResize };
