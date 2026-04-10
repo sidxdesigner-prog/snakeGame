@@ -16,6 +16,7 @@ const gameLoop = () => {
 }
 const initStartGame = () => {
     handleResize();
+    if (gameInterval) clearInterval(gameInterval);
     startGame();
     clearInterval(gameInterval);
     gameInterval = setInterval(gameLoop, 200);

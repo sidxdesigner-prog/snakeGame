@@ -3,11 +3,24 @@ import { previewHead, previewBody, previewTail, shadowAddClass, shadowRemoveClas
 
 let loadImagens = {};
 
+const skinBackgrounds = {
+    0: "#dfffe2", // Verde pastel (Skin 0)
+    1: "#c6e7ff", // Azul pastel (Skin 1)
+    2: "#fffbd0", // Amarelo pastel (Skin 2)
+    3: "#c2f8ff", // Azul água (Gyarados)
+    4: "#ffdede", // Cinza claro (Onix)
+    5: "#f0ffde", // Verde folha (Serperior)
+    6: "#f9d0ff", // Roxo pastel (Arbok)
+    7: "#c7ffcc", // Verde esmeralda (Rayquaza)
+};
+
 const renderGame = (state, context) => {
 
     const { renderSnake, foodRender, box, isAdvancedSkin, snakeSkin } = state
+    let bgColor = skinBackgrounds[state.skinId] || "#d5f9fd";
 
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    context.fillStyle = bgColor;
+    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
     for (let i = 0; i < renderSnake.length; i++) {
         const atual = renderSnake[i];

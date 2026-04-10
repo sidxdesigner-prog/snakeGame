@@ -30,6 +30,7 @@ const spriteNames = [
 let imagensLoad = {};
 
 const carregarSprites = (indiceSkin) => {
+  imagensLoad = {};
   const nomePasta = skinLibrary[indiceSkin]
   const arquivos = (indiceSkin == 7) ? spriteNames[1] : spriteNames[0];
   const promessas = arquivos.map(nomeArquivo => {

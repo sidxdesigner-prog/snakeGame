@@ -1,4 +1,4 @@
-import { gamePause, getState, choiceSkinID, updateCanvasConfig, selectMode, touchMove } from "./game.js";
+import { gamePause, getState, choiceSkinID, updateCanvasConfig, selectMode, touchMove, resetGameState } from "./game.js";
 import { updateSkinView } from "./render.js";
 import { initStartGame } from "./main.js";
 import { manageBGM, playSound } from "./audio.js";
@@ -120,6 +120,23 @@ const shadowRemoveClass = () => {
   spriteItems.forEach(item => item.classList.remove("noShadow"));
 }
 
+const goToHome = () => {
+  resetGameState();
+  
+  manageBGM(false); 
+
+  divGameOver.style.display = "none";
+  divPause.style.display = "none";
+  divTitle.style.display = "flex"; 
+  
+  
+  choiceMode.style.display = "block";
+  choiceSkin.style.display = "block";
+  pauseButtonOut.style.display = "none";
+  
+  context.clearRect(0, 0, canvas.width, canvas.height);
+};
+
 startButton.addEventListener("click", () => {
   spanNickname.innerText = Nickname.value;
   divTitle.style.display = "none";
@@ -154,17 +171,15 @@ closeDivSkin.addEventListener("click", () => {
   choiceSkin.style.display = "block";
 });
 
-homeButtonPause.addEventListener("click", () => {
-  location.reload()
-});
 restartButtonPause.addEventListener("click", () => {
   divPause.style.display = "none";
   initStartGame();
 });
 
-homeButtonGameOver.addEventListener("click", () => {
-  location.reload()
-});
+homeButtonPause.addEventListener("click", goToHome);
+
+homeButtonGameOver.addEventListener("click", goToHome);
+
 restartButtonGameOver.addEventListener("click", () => {
   divGameOver.style.display = "none";
   updateScore();
