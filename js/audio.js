@@ -7,10 +7,10 @@ const sounds = {
     pause: new Audio('assets/audio/pause.mp3')
 };
 const playList = [
-    'assets/audio/music_1.mp3',
-    'assets/audio/music_2.mp3',
-    'assets/audio/music_3.mp3',
-    'assets/audio/music_4.mp3',
+    'assets/audio/music_one.mp3',
+    'assets/audio/music_two.mp3',
+    'assets/audio/music_tree.mp3',
+    'assets/audio/music_four.mp3',
 ]
 
 let currentBGM = new Audio();
@@ -19,7 +19,7 @@ const shuffleBGM = () => {
     currentBGM.pause();
     const randomIndex = Math.floor(Math.random() * playList.length);
 
-    currentBGM.src = playList[randomIndex];
+    currentBGM = new Audio(playList[randomIndex]);
     currentBGM.loop = true;
     currentBGM.volume = 0.2;
 };

@@ -13,7 +13,7 @@ body {
     flex-direction: column;
     align-items: center;
     user-select: none;
-    scrollbar-arrow-color: red;
+    background-color: rgb(198, 218, 255);
 }
 
 button,
@@ -70,6 +70,7 @@ main {
     justify-content: center;
     flex-direction: column;
     overflow: hidden;
+    background-color: red;
 }
 .leaderboard {
     position: absolute;
@@ -147,7 +148,7 @@ main {
 
 
 canvas {
-    background-color: #fff;
+    background-color:  rgb(198, 218, 255);
     border-radius: 0px 0px 10px 10px;
 }
 
@@ -198,7 +199,7 @@ input {
     text-align: center;
     gap: 25px;
     z-index: 10;
-    background-color: white;
+    background-color: rgb(198, 218, 255);
 }
 
 .buttonPause,.divGameOver {
@@ -248,7 +249,7 @@ gap: 50px;
     justify-content: center;
     text-align: center;
     z-index: 15;
-    background-color: white;
+    background-color: rgb(198, 218, 255);
     border-radius: 20px;
     margin-top: 30px;
 }
@@ -277,7 +278,7 @@ gap: 50px;
     justify-content: center;
     text-align: center;
     z-index: 15;
-    background-color: white;
+    background-color: rgb(198, 218, 255);
     border-radius: 20px;
     margin-top: 50px;
 }
@@ -490,6 +491,14 @@ gap: 50px;
         margin-top: 25px;
         width: 80vw;
         max-width: 800px;
+    }
+    #skin,
+    #mode,
+    .gamePause, .gameOver {
+        padding: 10px;
+        width: 55%;
+        font-size: 14pt;
+        border-radius: 30px;
     }
 
     .logo {

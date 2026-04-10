@@ -142,6 +142,14 @@ const setNextDirection = (dir) => {
     nextDirection = dir;
   };
 }
+const resetGameState = () => {
+  snake = [];
+  food = {};
+  score = 0;
+  gameIsActive = false;
+  gameIsPause = false;
+  nextDirection = "RIGHT";
+}
 
 const touchMove = (touchStartX, touchStartY, touchEndX, touchEndY) =>{
   diffX = touchEndX - touchStartX;
@@ -183,4 +191,4 @@ const gamePause = () => {
   }
 }
 
-export { updateGame, getState, setNextDirection, startGame, gerarCobra, gamePause, updateCanvasConfig, setGameSkin, choiceSkinID, selectMode, touchMove};
+export { updateGame, getState, setNextDirection, startGame, gerarCobra, gamePause, updateCanvasConfig, setGameSkin, choiceSkinID, selectMode, touchMove, resetGameState};
