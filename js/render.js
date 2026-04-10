@@ -1,6 +1,8 @@
 import { getSegmentRotation, skinLibrary } from "./advancedSkin.js";
 import { previewHead, previewBody, previewTail, shadowAddClass, shadowRemoveClass } from "./ui.js";
 
+let loadImagens = {};
+
 const renderGame = (state, context) => {
 
     const { renderSnake, foodRender, box, isAdvancedSkin, snakeSkin } = state
@@ -33,10 +35,29 @@ const renderGame = (state, context) => {
 }
 
 const drawFood = (context, food, box) => {
-    context.fillStyle = "red";
-    context.fillRect(food.x * box, food.y * box, box, box);
+    if (loadImagens[food.id]) {
+        context.drawImage(
+            loadImagens[food.id],
+            food.x * box,
+            food.y * box,
+            box,
+            box
+        );
+    } else {
+        context.fillStyle = "red";
+        context.fillRect(food.x * box, food.y * box, box, box);
+    }
 };
 
+const preloadFoodImages = () => {
+    for (let i = 1; i <= 64; i++) {
+        const img = new Image();
+        img.src = `assets/imagens/berry/${i}.png`;
+        loadImagens[i] = img;
+    }
+};
+
+preloadFoodImages();
 
 const updateSkinView = (id) => {
     let skinName = skinLibrary[id]
@@ -61,4 +82,4 @@ const updateSkinView = (id) => {
 }
 
 
-export { renderGame, updateSkinView};
+export { renderGame, updateSkinView };

@@ -1,7 +1,7 @@
 const skinLibrary = {
-  0: "blue",
-  1: "yellow",
-  2: "green",
+  0: "green",
+  1: "blue",
+  2: "yellow",
   3: "gyarados",
   4: "onix",
   5: "serperior",
@@ -114,4 +114,4 @@ const getSegmentRotation = (anterior, atual, sucessor, index, snake) => {
   return { img: imgReta, angulo: (atual.y > anterior.y) ? Math.PI / 2 : 3 * Math.PI / 2 };
 };
 
-export { carregarSprites, getSegmentRotation, skinLibrary}
+export { carregarSprites, getSegmentRotation, skinLibrary }

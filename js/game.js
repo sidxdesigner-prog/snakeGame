@@ -1,5 +1,6 @@
 import { updateScore } from "./ui.js";
 import { carregarSprites, skinLibrary } from "./advancedSkin.js";
+import { shuffleBGM, playBGM, playSound } from "./audio.js";
 
 let snake = [];
 let food = {};
@@ -11,7 +12,6 @@ let gameMode = "classic";
 let gameIsPause = false;
 let gameIsActive = false;
 let score = 0;
-let currentSkin;
 let box;
 let isAdvancedSkin = false;
 let snakeSkin = "blue";
@@ -61,7 +61,8 @@ const gerarComida = () => {
   while (!inside) {
     newFood = {
       x: Math.floor(Math.random() * collumns),
-      y: Math.floor(Math.random() * rows)
+      y: Math.floor(Math.random() * rows),
+      id: Math.floor(Math.random() * 64) + 1
     }
     const foodToHeadColision = snake.some(segmento =>
       segmento.x === newFood.x && segmento.y === newFood.y
@@ -122,6 +123,7 @@ const updateGame = () => {
     gerarComida();
     score += 1;
     updateScore();
+    playSound('score');
   } else {
     snake.pop();
   }
@@ -158,7 +160,7 @@ const getState = () => {
   let renderSnake = snake.map(segment => {
     return { x: segment.x, y: segment.y };
   })
-  let foodRender = { x: food.x, y: food.y };
+  let foodRender = { x: food.x, y: food.y, id : food.id  };
   return { renderSnake, foodRender, gameIsPause, gameIsActive, score, rows, collumns, box, isAdvancedSkin, snakeSkin, touchStartX, touchEndX, touchStartY, touchEndY };
 }
 
@@ -166,8 +168,13 @@ const startGame = () => {
   gameIsActive = true;
   gameIsPause = false;
   nextDirection = "RIGHT";
+  score = 0
+  updateScore();
   gerarCobra();
   gerarComida();
+  shuffleBGM(); 
+  playBGM();    
+  playSound('start');
 }
 
 const gamePause = () => {

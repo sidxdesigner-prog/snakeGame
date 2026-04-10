@@ -1,6 +1,7 @@
 import { gamePause, getState, choiceSkinID, updateCanvasConfig, selectMode, touchMove } from "./game.js";
 import { updateSkinView } from "./render.js";
 import { initStartGame } from "./main.js";
+import { manageBGM, playSound } from "./audio.js";
 
 const pauseButtonOut = document.querySelector(".buttonIsPauseOut");
 const startButton = document.querySelector(".gameStart");
@@ -34,16 +35,45 @@ const Nickname = document.getElementById('apelido');
 const choiceSkin = document.getElementById("buttonSkin");
 const choiceMode = document.getElementById("buttonMode");
 
-let state;
 let touchStartX;
 let touchStartY;
 let touchEndX;
 let touchEndY;
 
+const updateRankingUI = () => {
+  const ranking = JSON.parse(localStorage.getItem('snakeRanking')) || [];
+  const rankingList = document.getElementById('rankingList');
+  
+  rankingList.innerHTML = ""; 
+
+  ranking.slice(0, 3).forEach((player, index) => {
+    const li = document.createElement('li');
+    li.innerText = `${index + 1}. ${player.name} - ${player.score}`;
+    rankingList.appendChild(li);
+  });
+};
+
+const saveScore = (name, score) => {
+  if (score === 0) return; 
+
+  let ranking = JSON.parse(localStorage.getItem('snakeRanking')) || [];
+  
+  ranking.push({ name: name, score: score });
+
+  ranking.sort((a, b) => b.score - a.score);
+
+  ranking = ranking.slice(0, 3);
+
+  localStorage.setItem('snakeRanking', JSON.stringify(ranking));
+  
+  updateRankingUI();
+};
+
 const togglePause = () => {
   gamePause()
-  const { gameIsActive } = getState();
-  const { gameIsPause } = getState();
+  let { gameIsActive } = getState();
+  let { gameIsPause } = getState();
+  manageBGM(gameIsActive, gameIsPause);
   if (gameIsActive) {
     if (gameIsPause) {
       divPause.style.display = "flex";
@@ -56,24 +86,27 @@ const togglePause = () => {
 };
 
 const updateScore = () => {
-  const { score } = getState();
+  let { score } = getState();
   spanScore.innerText = score;
 
 };
 
 const showGameOver = () => {
-  const { gameIsActive } = getState();
+  let { gameIsActive, score} = getState();
   if (!gameIsActive) {
+    playSound('gameover');
+    manageBGM(false);
+    saveScore(Nickname.value || "Anônimo", score);
     divGameOver.style.display = "flex";
     spanGameOverNickname.innerText = Nickname.value;
-    spanGameOverScore.innerText = state.score;
+    spanGameOverScore.innerText = score;
   }
 };
 
 const handleResize = () => {
   let larguraDisponivel = gameRange.clientWidth
   updateCanvasConfig(larguraDisponivel);
-  const { box, collumns, rows } = getState();
+  let { box, collumns, rows } = getState();
   canvas.width = box * collumns;
   canvas.height = box * rows;
 }
@@ -92,6 +125,7 @@ startButton.addEventListener("click", () => {
   divTitle.style.display = "none";
   choiceMode.style.display = "none";
   choiceSkin.style.display = "none";
+  pauseButtonOut.style.display = "block";
 });
 
 pauseButtonOut.addEventListener("click", togglePause);
@@ -133,13 +167,14 @@ homeButtonGameOver.addEventListener("click", () => {
 });
 restartButtonGameOver.addEventListener("click", () => {
   divGameOver.style.display = "none";
+  updateScore();
   initStartGame();
 });
 
 skinItem.forEach(botao => {
   botao.addEventListener("click", async (e) => {
-    const alvoClicado = e.currentTarget;
-    const valueSkin = e.currentTarget.getAttribute("data-valor");
+    let alvoClicado = e.currentTarget;
+    let valueSkin = e.currentTarget.getAttribute("data-valor");
     await choiceSkinID(valueSkin);
     updateSkinView(valueSkin);
     skinItem.forEach(b => b.classList.remove("ativa"));
@@ -149,11 +184,23 @@ skinItem.forEach(botao => {
 
 modeItem.forEach(botao => {
   botao.addEventListener("click", async (e) => {
-    const valueMode = e.currentTarget.getAttribute("data-valor");
+    let alvoClicado = e.currentTarget;
+    let valueMode = e.currentTarget.getAttribute("data-valor");
     selectMode(valueMode);
     modeItem.forEach(b => b.classList.remove("ativa"));
-    e.currentTarget.classList.add("ativa");
+    alvoClicado.classList.add("ativa");
   })
+});
+
+const shareButton = document.getElementById('shareGame');
+shareButton.addEventListener('click', () => {
+  const gameUrl = window.location.href;
+
+  navigator.clipboard.writeText(gameUrl).then(() => {
+    alert("Link do jogo copiado para a área de transferência! 🐍✨");
+  }).catch(err => {
+    console.error('Erro ao copiar o link: ', err);
+  });
 });
 
 window.addEventListener("load", handleResize);
@@ -171,6 +218,6 @@ canvas.addEventListener("touchend", (e) => {
   touchMove(touchStartX, touchStartY, touchEndX, touchEndY)
 })
 
-
+updateRankingUI();
 
 export { togglePause, updateScore, showGameOver, context, handleResize, previewHead, previewBody, previewTail, shadowAddClass, shadowRemoveClass };

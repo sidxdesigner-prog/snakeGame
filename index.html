@@ -2,8 +2,10 @@
 <html lang="pt-br">
 
 <head>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="assets/imagens/logos/favicon.png" type="image/x-icon">
   <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,12 +19,12 @@
 <body>
   <header>
     <div class="header">
-      <a class="headerItem" href="http://"><i class="fa-brands fa-square-facebook"></i></a>
-      <a class="headerItem" href="http://"><i class="fa-solid fa-share"></i></a>
-      <a class="headerItem" href="http://"><i class="fa-brands fa-square-x-twitter"></i></a>
+      <a class="headerItem" href="https://www.instagram.com/joandesson_silva/" rel="noopener noreferrer" target="_blank"> <i class="fa-brands fa-instagram"></i></a>
+      <a class="headerItem buttonLike" id="shareGame"><i class="fa-solid fa-share"></i></a>
+      <a class="headerItem" href="https://github.com/sidxdesigner-prog" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-square-github"></i></a>
     </div>
 
-    <img class="logo" src="assets/imagens/logo.png" alt="Logomarca do Snake Game">
+    <img class="logo" src="assets/imagens/logos/logo principal.png" alt="Logomarca do Snake Game">
 
   </header>
 
@@ -31,16 +33,17 @@
     <div class="gameRange">
 
       <div class="gameHeader">
-        <p class="score">Score: <span class="spanScore"></span></p>
-        <button class="buttonIsPauseOut"><i class="fa fa-play" aria-hidden="true"></i></button>
-        <p class="nickname">Apelido: <span class="spanNickname"></span></p>
+        <p class="score gameHeaderItem">Score: <span class="spanScore "></span></p>
+        <button class="buttonIsPauseOut gameHeaderItem"><i class="fa fa-play" aria-hidden="true"></i></button>
+        <p class="nickname gameHeaderItem">Apelido: <span class="spanNickname"></span></p>
       </div>
 
       <canvas class="gameBoard"></canvas>
+      
       <div class="title" id="title">
-        <h1><span>Poke</span> Game</h1>
+        <img src="assets/imagens/logos/logo principal.png"></img>
         <form>
-          <input type="text" id="apelido" placeholder="Apelido">
+          <input type="text" id="apelido" placeholder="Apelido" maxlength="10" minlength="5">
         </form>
         <button class="gameStart">Start</button>
 
@@ -103,11 +106,11 @@
           <h2>Escolha o Modo de Jogo</h2>
           <div class="modeGrid">
             <div>
-              <div class="modeItem classic" data-valor="classic"></div>
+              <div class="modeItem classic" data-valor="classic"><img src="assets/imagens/div/classicMode.png" alt=""></div>
               <p>Clássico</p>
             </div>
             <div>
-              <div class="modeItem infinite" data-valor="infinite"></div>
+              <div class="modeItem infinite" data-valor="infinite"><img src="assets/imagens/div/infiniteMode.png" alt=""></div>
               <p>infinito</p>
             </div>
           </div>
@@ -115,6 +118,14 @@
         </div>
       </div>
     </div>
+    <div class="leaderboard">
+  <h2>Top 3 Rankings</h2>
+  <ul id="rankingList">
+    <li>1. --- - 0</li>
+    <li>2. --- - 0</li>
+    <li>3. --- - 0</li>
+  </ul>
+</div>
   </main>
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/input.js"></script>
